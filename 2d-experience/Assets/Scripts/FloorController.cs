@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FloorController : MonoBehaviour {
-    private float speed = .1f;
+    private float speed = .05f;
 
     // Use this for initialization
     void Start()
