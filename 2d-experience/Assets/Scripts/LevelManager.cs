@@ -7,7 +7,6 @@ public class LevelManager : MonoBehaviour {
     public Transform floorPrefab;
     private Transform lastElement;
     private float floorPrefabHorizontalSize;
-    private float floorPrefabVerticalSize;
     private float verticalSize;
     private float horizontalSize;
     private Transform firstTile;
@@ -21,7 +20,6 @@ public class LevelManager : MonoBehaviour {
         // Floor tile size
         Vector2 floorSize = floorPrefab.GetComponent<BoxCollider2D>().size;
         floorPrefabHorizontalSize = floorSize.x * 5f;
-        floorPrefabVerticalSize = floorSize.y * 4f;
         float tilePositionHorizontalOffset = (-1f * horizontalSize) + (floorSize.x * 2.5f);
         float tilePositionVerticalOffset = (-1f * verticalSize) + (floorSize.y * 2f);
 
