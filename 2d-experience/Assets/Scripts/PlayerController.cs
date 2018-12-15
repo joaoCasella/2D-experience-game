@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
     public float jumpHeight = 1.6f;
     public float jumpAnimationSpeed = 0.45f;
     public float runSpeed = 1f;
-    private bool isJumping = false;
+    private bool isBlocked = false;
     private Animator animator;
 
 	// Use this for initialization
@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
+        if (Input.GetKeyDown(KeyCode.Space) && !isBlocked)
         {
             animator.SetTrigger("jumpTrigger");
             StartCoroutine(Jump());
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour {
 
     IEnumerator Jump()
     {
-        isJumping = true;
+        isBlocked = true;
 
         float horizontalCoordinate = transform.position.x;
         float currentPositionY = transform.position.y;
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
 
         yield return StartCoroutine(MoveCharacter(new Vector2(horizontalCoordinate, jumpHeight + currentPositionY), new Vector2(horizontalCoordinate, currentPositionY), jumpSpeed, jumpDuration));
 
-        isJumping = false;
+        isBlocked = false;
     }
 
     IEnumerator MoveCharacter(Vector2 currentPosition, Vector2 destinationPosition, float speed, float duration)
@@ -58,5 +58,17 @@ public class PlayerController : MonoBehaviour {
     private void FixedUpdate()
     {
        
+    }
+
+    public void ToggleRunningState(bool shouldRun)
+    {
+        isBlocked = !shouldRun;
+        if(shouldRun)
+        {
+            animator.Play("PlayerWalk");
+        } else
+        {
+            animator.Play("PlayerIdle");
+        }
     }
 }

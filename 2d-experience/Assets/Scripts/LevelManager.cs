@@ -10,6 +10,8 @@ public class LevelManager : MonoBehaviour {
     private float verticalSize;
     private float horizontalSize;
     private Transform firstTile;
+    private bool isGameOn = true;
+    public PlayerController player;
 
     // Use this for initialization
     void Start () {
@@ -42,17 +44,30 @@ public class LevelManager : MonoBehaviour {
 
         lastElement = currentElement;
         firstTile = floor.Peek();
+
+        SetupFloorMovement(isGameOn);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if(firstTile.position.x < -(horizontalSize + floorPrefabHorizontalSize))
+        if(firstTile.position.x < -(horizontalSize + floorPrefabHorizontalSize) && isGameOn)
         {
-            MoveFloor();
+            RecycleMovingFloorComponent();
         }
-	}
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isGameOn = !isGameOn;
+            SetupFloorMovement(isGameOn);
+            player.ToggleRunningState(isGameOn);
+        }
+    }
 
-    void MoveFloor()
+    void SetupFloorMovement(bool shouldMove)
+    {
+        FloorController.isMoving = shouldMove;
+    }
+
+    void RecycleMovingFloorComponent()
     {
         Transform gameObject = floor.Dequeue();
         gameObject.transform.position = new Vector2(

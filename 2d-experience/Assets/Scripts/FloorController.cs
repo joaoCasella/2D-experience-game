@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FloorController : MonoBehaviour {
     private float speed = .05f;
+    public static bool isMoving;
 
     // Use this for initialization
     void Start()
@@ -14,6 +15,10 @@ public class FloorController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(speed * Vector2.left);
+        if(isMoving)
+        {
+            transform.Translate(speed * Vector2.left);
+        }
+        
     }
 }
