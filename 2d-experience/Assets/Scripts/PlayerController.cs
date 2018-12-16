@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour {
             animator.SetTrigger("jumpTrigger");
             StartCoroutine(Jump());
         }
+        ToggleRunningState();
     }
 
     IEnumerator Jump()
@@ -60,10 +61,10 @@ public class PlayerController : MonoBehaviour {
        
     }
 
-    public void ToggleRunningState(bool shouldRun)
+    public void ToggleRunningState()
     {
-        isBlocked = !shouldRun;
-        if(shouldRun)
+        isBlocked = !LevelManager.isGameOn;
+        if(LevelManager.isGameOn)
         {
             animator.Play("PlayerWalk");
         } else
