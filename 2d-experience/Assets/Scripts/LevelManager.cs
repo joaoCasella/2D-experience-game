@@ -8,24 +8,38 @@ public class LevelManager : MonoBehaviour {
     public static bool isGameOn = true;
     public Transform floorController;
     public Transform enemyController;
+    public Transform playerController;
+    private GameObject player;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
         // Camera detected size
         verticalScreenSize = (float) Camera.main.orthographicSize;
         horizontalScreenSize = (verticalScreenSize * (float) Screen.width) / (float) Screen.height;
 
-        GameObject floor = Instantiate(floorController.gameObject);
+        Instantiate(floorController.gameObject);
         GameObject enemies = Instantiate(enemyController.gameObject);
 
         FloorController.OnFloorEnd += enemies.GetComponent<EnemyController>().SetupEnemies;
+        Enemy.OnPlayerCollision += OnPlayerDeath;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    void Start()
+    {
+        player = Instantiate(playerController.gameObject);
+        player.GetComponent<PlayerController>().SetupPlayerOnScene();
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             isGameOn = !isGameOn;
         }
+    }
+
+    void OnPlayerDeath()
+    {
+        player.GetComponent<PlayerController>().KillPlayer();
     }
 }

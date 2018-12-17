@@ -8,12 +8,12 @@ public class FloorController : MonoBehaviour {
     private Transform lastFloorTile;
     private float floorPrefabHorizontalSize;
     private Transform firstFloorTile;
-    private Vector2 floorSize;
+    public static Vector2 floorSize;
     public delegate void OnFloorCycle(float xPosition, float yPosition);
     public static event OnFloorCycle OnFloorEnd;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
         // Floor tile size
         floorSize = floorPrefab.GetComponent<BoxCollider2D>().size;
         floorPrefabHorizontalSize = floorSize.x * 5f;
