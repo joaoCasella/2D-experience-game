@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {
     private AudioSource audioSource;
     public AudioClip audioClip;
     public static float jumpSoundVolume = .5f;
+    public float playerDeathAnimationHeight;
 
     // Use this for initialization
     void Start () {
@@ -88,12 +89,20 @@ public class Player : MonoBehaviour {
     {
         isBlocked = true;
 
-        transform.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 100), ForceMode2D.Impulse);
+        animator.SetBool("deathDisable", true);
 
-        yield return null;
+        transform.GetComponent<Rigidbody2D>().AddForce(Vector2.up * playerDeathAnimationHeight, ForceMode2D.Impulse);
 
-        Destroy(GetComponent<Rigidbody2D>());
-        animator.SetTrigger("deathTrigger");
+        Destroy(GetComponent<BoxCollider2D>());
+
+        while (transform.position.y > -LevelManager.verticalScreenSize)
+        {
+            yield return null;
+        }
+
+        animator.SetBool("deathDisable", false);
+
+        Destroy(transform.gameObject);
 
         isBlocked = false;
     }

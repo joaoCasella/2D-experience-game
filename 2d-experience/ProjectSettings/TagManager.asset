@@ -47,11 +47,11 @@ TagManager:
   - name: Background
     uniqueID: 2633313873
     locked: 0
-  - name: Character
-    uniqueID: 3319020431
-    locked: 0
   - name: Foreground
     uniqueID: 3942036307
+    locked: 0
+  - name: Character
+    uniqueID: 3319020431
     locked: 0
   - name: UI
     uniqueID: 518662895

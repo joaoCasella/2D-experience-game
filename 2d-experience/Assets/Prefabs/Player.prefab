@@ -217,9 +217,10 @@ MonoBehaviour:
   jumpSpeed: 22
   jumpDuration: 3.2
   jumpHeight: 1.6
-  jumpAnimationSpeed: 0.45
+  jumpAnimationSpeed: 1
   runSpeed: 1
   audioClip: {fileID: 8300000, guid: 85d955f5fe03223498ae8af877e5fdd8, type: 3}
+  playerDeathAnimationHeight: 5
 --- !u!212 &212217873628050254
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -253,7 +254,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -975946865
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 72de0c64f2c6a498096698322c976a67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
