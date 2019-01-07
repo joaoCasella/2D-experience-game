@@ -214,10 +214,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c6f7c5d846c6048b6d0e34f9604f1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSpeed: 22
-  jumpDuration: 3.2
-  jumpHeight: 1.6
-  jumpAnimationSpeed: 1
+  jumpSpeed: 17
+  jumpDuration: 4.5
+  jumpHeight: 2
+  jumpAnimationSpeed: 0.23
   runSpeed: 1
   audioClip: {fileID: 8300000, guid: 85d955f5fe03223498ae8af877e5fdd8, type: 3}
   playerDeathAnimationHeight: 5
