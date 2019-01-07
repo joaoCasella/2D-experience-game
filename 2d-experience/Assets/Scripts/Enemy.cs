@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        animator.enabled = LevelManager.isGameOn;
+        animator.speed = LevelManager.isGameOn ? 1f : 0.6f;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

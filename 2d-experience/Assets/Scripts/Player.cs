@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-    public float jumpSpeed = 22f;
-    public float jumpDuration = 3.2f;
-    public float jumpHeight = 1.6f;
-    public float jumpAnimationSpeed = 0.45f;
+    public float jumpSpeed = 17f;
+    public float jumpDuration = 4.5f;
+    public float jumpHeight = 2f;
+    public float jumpAnimationSpeed = 0.23f;
     public float runSpeed = 1f;
     private bool isBlocked = false;
     private Animator animator;
     private AudioSource audioSource;
     public AudioClip audioClip;
     public static float jumpSoundVolume = .5f;
-    public float playerDeathAnimationHeight;
+    public float playerDeathAnimationHeight = 5;
 
     // Use this for initialization
     void Start () {
@@ -25,13 +25,14 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        ToggleRunningState();
+
         if (Input.GetKeyDown(KeyCode.Space) && !isBlocked)
         {
             audioSource.PlayOneShot(audioClip, jumpSoundVolume);
             
             StartCoroutine(Jump());
         }
-        ToggleRunningState();
     }
 
     IEnumerator Jump()
@@ -63,33 +64,21 @@ public class Player : MonoBehaviour {
         transform.position = destinationPosition;
     }
 
-    private void FixedUpdate()
-    {
-       
-    }
-
     public void ToggleRunningState()
     {
         isBlocked = !LevelManager.isGameOn;
-        if(LevelManager.isGameOn)
-        {
-            animator.Play("PlayerWalk");
-        } else
-        {
-            animator.Play("PlayerIdle");
-        }
+        animator.SetBool("playerIdle", !LevelManager.isGameOn);
     }
 
     public void OnDeath()
     {
+        StopAllCoroutines();
         StartCoroutine(Death());
     }
 
     IEnumerator Death()
     {
-        isBlocked = true;
-
-        animator.SetBool("deathDisable", true);
+        animator.SetTrigger("deathTrigger");
 
         transform.GetComponent<Rigidbody2D>().AddForce(Vector2.up * playerDeathAnimationHeight, ForceMode2D.Impulse);
 
@@ -100,10 +89,6 @@ public class Player : MonoBehaviour {
             yield return null;
         }
 
-        animator.SetBool("deathDisable", false);
-
         Destroy(transform.gameObject);
-
-        isBlocked = false;
     }
 }
