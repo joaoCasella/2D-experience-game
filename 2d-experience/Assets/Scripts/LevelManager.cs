@@ -10,6 +10,8 @@ public class LevelManager : MonoBehaviour {
     public Transform enemyController;
     public Transform playerController;
     private GameObject player;
+    private GameObject enemies;
+    public static int pontuation = 0;
 
     // Use this for initialization
     void Awake () {
@@ -18,9 +20,10 @@ public class LevelManager : MonoBehaviour {
         horizontalScreenSize = (verticalScreenSize * (float) Screen.width) / (float) Screen.height;
 
         Instantiate(floorController.gameObject);
-        GameObject enemies = Instantiate(enemyController.gameObject);
+        
+        enemies = Instantiate(enemyController.gameObject);
 
-        FloorController.OnFloorEnd += enemies.GetComponent<EnemyController>().SetupEnemies;
+        FloorController.OnFloorEnd += OnFloorMovement;
         Enemy.OnPlayerCollision += OnPlayerDeath;
     }
 
@@ -38,8 +41,15 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
+    void OnFloorMovement(float tilePositionX, float tilePositionY)
+    {
+        enemies.GetComponent<EnemyController>().SetupEnemies(tilePositionX, tilePositionY);
+        pontuation++;
+    }
+
     void OnPlayerDeath()
     {
+        isGameOn = false;
         player.GetComponent<PlayerController>().KillPlayer();
     }
 }
