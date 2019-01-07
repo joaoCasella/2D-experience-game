@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour {
     public static float verticalScreenSize;
@@ -12,6 +13,7 @@ public class LevelManager : MonoBehaviour {
     private GameObject player;
     private GameObject enemies;
     public static int pontuation = 0;
+    public Text pontuationText;
 
     // Use this for initialization
     void Awake () {
@@ -45,6 +47,7 @@ public class LevelManager : MonoBehaviour {
     {
         enemies.GetComponent<EnemyController>().SetupEnemies(tilePositionX, tilePositionY);
         pontuation++;
+        pontuationText.text = "Points: " + pontuation;
     }
 
     void OnPlayerDeath()
