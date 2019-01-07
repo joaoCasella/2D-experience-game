@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class LevelManager : MonoBehaviour {
     public static float verticalScreenSize;
     public static float horizontalScreenSize;
-    public static bool isGameOn = true;
+    public static bool isGameOn = false;
+    public static bool gamePaused = false;
     public Transform floorController;
     public Transform enemyController;
     public Transform playerController;
@@ -39,8 +40,18 @@ public class LevelManager : MonoBehaviour {
     void Update () {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            gamePaused = !gamePaused;
+        }
+        // provisory to test the separated logic between pause and new game
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
             isGameOn = !isGameOn;
         }
+    }
+
+    public static bool IsGamePaused()
+    {
+        return !isGameOn || gamePaused;
     }
 
     void OnFloorMovement(float tilePositionX, float tilePositionY)

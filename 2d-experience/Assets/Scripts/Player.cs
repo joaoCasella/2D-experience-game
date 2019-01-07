@@ -66,8 +66,8 @@ public class Player : MonoBehaviour {
 
     public void ToggleRunningState()
     {
-        isBlocked = !LevelManager.isGameOn;
-        animator.SetBool("playerIdle", !LevelManager.isGameOn);
+        isBlocked = LevelManager.IsGamePaused();
+        animator.SetBool("playerIdle", LevelManager.IsGamePaused());
     }
 
     public void OnDeath()

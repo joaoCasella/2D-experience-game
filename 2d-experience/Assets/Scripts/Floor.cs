@@ -14,7 +14,7 @@ public class Floor : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if(LevelManager.isGameOn)
+        if(!LevelManager.IsGamePaused())
         {
             transform.Translate(speed * Vector2.left);
         }

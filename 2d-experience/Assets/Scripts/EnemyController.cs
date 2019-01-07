@@ -44,9 +44,7 @@ public class EnemyController : MonoBehaviour
             Transform enemy = Instantiate(
                 enemySpawn,
                 new Vector2(
-                    // gameObject.position.x,
                     tilePositionX,
-                    // gameObject.position.y + floorSize.y * 2.5f + (enemySize.y * 3f)
                     tilePositionY + (enemySize.y * 3f)
                 ),
                 Quaternion.identity

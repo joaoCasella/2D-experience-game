@@ -43,7 +43,7 @@ public class FloorController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(firstFloorTile.position.x < -(LevelManager.horizontalScreenSize + floorSize.x * 2f) && LevelManager.isGameOn)
+        if(firstFloorTile.position.x < -(LevelManager.horizontalScreenSize + floorSize.x * 2f) && !LevelManager.IsGamePaused())
         {
             RecycleMovingFloorComponent();
         }
