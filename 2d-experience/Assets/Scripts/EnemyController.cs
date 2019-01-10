@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     public Transform[] enemies;
     private int numberTilesToSpawnEnemy = 1;
     private System.Random randomNumberGenerator = new System.Random();
+    private int numberTilesBetweenEnemies = 5;
 
     // Use this for initialization
     void Start () {
@@ -35,7 +36,7 @@ public class EnemyController : MonoBehaviour
 
     private void SpawnNewEnemy(float tilePositionX, float tilePositionY)
     {
-        if (numberTilesToSpawnEnemy >= 5)
+        if (numberTilesToSpawnEnemy >= numberTilesBetweenEnemies)
         {
             numberTilesToSpawnEnemy = 1;
             int nextEnemyIndex = randomNumberGenerator.Next(2);

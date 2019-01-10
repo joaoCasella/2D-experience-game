@@ -39,6 +39,8 @@ public class FloorController : MonoBehaviour {
 
         lastFloorTile = currentElement;
         firstFloorTile = floor.Peek();
+
+        Floor.SetupInitialFloorSpeed(); 
 	}
 	
 	// Update is called once per frame
@@ -64,5 +66,10 @@ public class FloorController : MonoBehaviour {
 
         lastFloorTile = gameObject;
         firstFloorTile = floor.Peek();
+    }
+
+    public static void IncreaseFloorSpeed()
+    {
+        Floor.IncreaseFloorSpeed();
     }
 }

@@ -15,6 +15,8 @@ public class LevelManager : MonoBehaviour {
     private GameObject enemies;
     public static int pontuation = 0;
     public Text pontuationText;
+    public int floorSpeedIncreaseInterval = 25;
+    private int previousFloorIncreaseStep = 0;
 
     // Use this for initialization
     void Awake () {
@@ -59,6 +61,12 @@ public class LevelManager : MonoBehaviour {
         enemies.GetComponent<EnemyController>().SetupEnemies(tilePositionX, tilePositionY);
         pontuation++;
         pontuationText.text = "Points: " + pontuation;
+
+        if (pontuation == previousFloorIncreaseStep + floorSpeedIncreaseInterval)
+        {
+            FloorController.IncreaseFloorSpeed();
+            previousFloorIncreaseStep = pontuation;
+        }
     }
 
     void OnPlayerDeath()
