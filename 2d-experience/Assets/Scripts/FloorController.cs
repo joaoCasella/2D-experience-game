@@ -31,6 +31,7 @@ public class FloorController : MonoBehaviour {
             float newTileHorizontalPosition = tilePositionHorizontalOffset + sumGameObjectHorizontalSize;
 
             currentElement = Instantiate(floorPrefab, new Vector2(newTileHorizontalPosition, tilePositionVerticalOffset), Quaternion.identity);
+            currentElement.parent = transform;
 
             floor.Enqueue(currentElement);
 
@@ -39,8 +40,6 @@ public class FloorController : MonoBehaviour {
 
         lastFloorTile = currentElement;
         firstFloorTile = floor.Peek();
-
-        Floor.SetupInitialFloorSpeed(); 
 	}
 	
 	// Update is called once per frame
@@ -71,5 +70,10 @@ public class FloorController : MonoBehaviour {
     public static void IncreaseFloorSpeed()
     {
         Floor.IncreaseFloorSpeed();
+    }
+
+    public void ResetFloorSpeed()
+    {
+        Floor.SetupInitialFloorSpeed();
     }
 }

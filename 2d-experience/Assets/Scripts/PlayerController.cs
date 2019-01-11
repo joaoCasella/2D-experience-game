@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
             player.gameObject, 
             new Vector2(
                 -LevelManager.horizontalScreenSize + 9f * playerSize.x, 
-                -LevelManager.verticalScreenSize + FloorController.floorSize.y * 2.5f + playerSize.y * 6f
+                -LevelManager.verticalScreenSize + FloorController.floorSize.y * 2.5f + playerSize.y * 12f
             ), 
             Quaternion.identity
         );

@@ -11,12 +11,18 @@ public class LevelManager : MonoBehaviour {
     public Transform floorController;
     public Transform enemyController;
     public Transform playerController;
+    private GameObject floor;
     private GameObject player;
     private GameObject enemies;
-    public static int pontuation = 0;
+    public int pontuation = 0;
     public Text pontuationText;
     public int floorSpeedIncreaseInterval = 25;
     private int previousFloorIncreaseStep = 0;
+    public GameObject mainMenu;
+    public GameObject pauseMenu;
+    public GameObject playerHud;
+    private int maxPoints = 0;
+    public Text highScoreText;
 
     // Use this for initialization
     void Awake () {
@@ -24,31 +30,48 @@ public class LevelManager : MonoBehaviour {
         verticalScreenSize = (float) Camera.main.orthographicSize;
         horizontalScreenSize = (verticalScreenSize * (float) Screen.width) / (float) Screen.height;
 
-        Instantiate(floorController.gameObject);
-        
+        floor = Instantiate(floorController.gameObject);
         enemies = Instantiate(enemyController.gameObject);
+        player = Instantiate(playerController.gameObject);
 
         FloorController.OnFloorEnd += OnFloorMovement;
         Enemy.OnPlayerCollision += OnPlayerDeath;
     }
 
-    void Start()
+    public void OnGameStart()
     {
-        player = Instantiate(playerController.gameObject);
+        enemies.GetComponent<EnemyController>().DestroyAllEnemies();
+        floor.GetComponent<FloorController>().ResetFloorSpeed();
+
         player.GetComponent<PlayerController>().SetupPlayerOnScene();
+
+        pontuation = 0;
+
+        isGameOn = true;
+        DisplayMainMenu(false);
     }
 
     // Update is called once per frame
     void Update () {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            gamePaused = !gamePaused;
-        }
-        // provisory to test the separated logic between pause and new game
-        else if (Input.GetKeyDown(KeyCode.A))
+            OnPausePress();
+        } else if(!isGameOn)
         {
-            isGameOn = !isGameOn;
+            DisplayMainMenu(true);
         }
+    }
+
+    public void DisplayMainMenu(bool isGameOver)
+    {
+        mainMenu.SetActive(isGameOver);
+        playerHud.SetActive(!isGameOver);
+    }
+
+    public void OnPausePress()
+    {
+        gamePaused = !gamePaused;
+        pauseMenu.SetActive(gamePaused);
     }
 
     public static bool IsGamePaused()
@@ -73,5 +96,17 @@ public class LevelManager : MonoBehaviour {
     {
         isGameOn = false;
         player.GetComponent<PlayerController>().KillPlayer();
+
+        if(pontuation > maxPoints)
+        {
+            maxPoints = pontuation;
+        }
+
+        highScoreText.text = "High Score: " + maxPoints;
+    }
+
+    public void OnGameQuit()
+    {
+        Application.Quit();
     }
 }

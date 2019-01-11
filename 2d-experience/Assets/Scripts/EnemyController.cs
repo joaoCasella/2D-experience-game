@@ -30,7 +30,11 @@ public class EnemyController : MonoBehaviour
             enemiesQueue.Peek().position.x < (-LevelManager.horizontalScreenSize - (enemiesQueue.Peek().GetComponent<BoxCollider2D>().size.x * 1.5f)))
         {
             Transform enemyDead = enemiesQueue.Dequeue();
-            Destroy(enemyDead.gameObject);
+
+            if(enemyDead != null)
+            {
+                Destroy(enemyDead.gameObject);
+            }
         }
     }
 
@@ -56,5 +60,14 @@ public class EnemyController : MonoBehaviour
         {
             numberTilesToSpawnEnemy++;
         }
+    }
+
+    public void DestroyAllEnemies()
+    {
+        foreach(Transform enemy in enemiesQueue)
+        {
+            Destroy(enemy.gameObject);
+        }
+        enemiesQueue.Clear();
     }
 }
