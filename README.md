@@ -12,3 +12,14 @@ The machine used to develop this game was a Acer Nitro 5, with a Intel I7 7700H 
 
 # Feedback
 This is my first 2D project (I have also developed a 3D game, that is going to be refactored before it's upload to Git), so any feedbacks and suggestions are apreciated. All I ask is respect :)
+
+# Possible Improvements
+My goal is to learn about the engine e its workflow. So, I consider the game in a state were there is not much to be done that can teach me a lot (you can tell me why I'm wrong by creating an issue). In spite of those facts, here are some points that could be improved in the game:
+
+- [ ] Adapt game (mainly the controls) to work on mobile
+- [ ] Add an enemy that flies (similar to the aerodactyl in the chrome game, used as inspiration), and adapt the player logic accordingly to make it work
+- [ ] Tune some parameters, like the ones related to the jump
+- [ ] Play a sound effect when the user dies
+- [ ] Fix some visual glitches on the moving floor
+- [ ] Persist the high score in the hard drive (currently, the game only "remembers" the high score from the current session)
+- [ ] Add some sort of bonus to the player (like coins that add a bonus to the player pontuation but are difficult to be caught)
