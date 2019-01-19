@@ -23,3 +23,7 @@ My goal is to learn about the engine e its workflow. So, I consider the game in 
 - [ ] Fix some visual glitches on the moving floor
 - [ ] Persist the high score in the hard drive (currently, the game only "remembers" the high score from the current session)
 - [ ] Add some sort of bonus to the player (like coins that add a bonus to the player pontuation but are difficult to be caught)
+- [ ] Minor optimizations:
+    - [ ] Replace tag comparation with the `CompareTag` method
+    - [ ] Remove unused assets from the package imported
+    - [ ] Remove object creation from runtime (remnant of old logic)
