@@ -1,6 +1,8 @@
 # 2D-experience-game
 First 2D project, trying to learn about 2D game development using Unity
 
+![](Demo.gif)
+
 # Objective
 Develop a simple 2D game, using Unity, to learn about the basics of the engine
 
