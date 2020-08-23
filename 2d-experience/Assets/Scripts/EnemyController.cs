@@ -1,73 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Runner.Scripts.Manager;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+namespace Runner.Scripts.Controller
 {
-    public Queue<Transform> enemiesQueue = new Queue<Transform>();
-    public Transform[] enemies;
-    private int numberTilesToSpawnEnemy = 1;
-    private System.Random randomNumberGenerator = new System.Random();
-    private int numberTilesBetweenEnemies = 5;
-
-    // Use this for initialization
-    void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-    }
-
-    public void SetupEnemies(float tilePositionX, float tilePositionY)
+    public class EnemyController : MonoBehaviour
     {
-        DeleteEnemiesOffScreen();
-        SpawnNewEnemy(tilePositionX, tilePositionY);
-    }
+        [SerializeField]
+        private Animator _animator;
 
-    private void DeleteEnemiesOffScreen()
-    {
-        if (enemiesQueue.Count > 0 && 
-            enemiesQueue.Peek().position.x < (-LevelManager.horizontalScreenSize - (enemiesQueue.Peek().GetComponent<BoxCollider2D>().size.x * 1.5f)))
+        public delegate void OnCollision();
+        public static event OnCollision OnPlayerCollision;
+
+        // Update is called once per frame
+        void Update()
         {
-            Transform enemyDead = enemiesQueue.Dequeue();
+            _animator.speed = LevelManager.IsGamePaused() ? 0.6f : 1f;
+        }
 
-            if(enemyDead != null)
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.CompareTag("Player"))
             {
-                Destroy(enemyDead.gameObject);
+                OnPlayerCollision();
+            }
+            else if (collision.gameObject.CompareTag("Floor"))
+            {
+                transform.parent = collision.transform;
             }
         }
-    }
 
-    private void SpawnNewEnemy(float tilePositionX, float tilePositionY)
-    {
-        if (numberTilesToSpawnEnemy >= numberTilesBetweenEnemies)
+        private void OnCollisionExit2D(Collision2D collision)
         {
-            numberTilesToSpawnEnemy = 1;
-            int nextEnemyIndex = randomNumberGenerator.Next(2);
-            Transform enemySpawn = enemies[nextEnemyIndex];
-            Vector2 enemySize = enemySpawn.GetComponent<BoxCollider2D>().size;
-            Transform enemy = Instantiate(
-                enemySpawn,
-                new Vector2(
-                    tilePositionX,
-                    tilePositionY + (enemySize.y * 3f)
-                ),
-                Quaternion.identity
-            );
-            enemiesQueue.Enqueue(enemy);
+            if (collision.gameObject.CompareTag("Floor"))
+            {
+                transform.parent = null;
+            }
         }
-        else
-        {
-            numberTilesToSpawnEnemy++;
-        }
-    }
-
-    public void DestroyAllEnemies()
-    {
-        foreach(Transform enemy in enemiesQueue)
-        {
-            Destroy(enemy.gameObject);
-        }
-        enemiesQueue.Clear();
-    }
+    } 
 }

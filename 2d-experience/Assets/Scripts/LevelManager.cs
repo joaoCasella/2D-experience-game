@@ -1,112 +1,136 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Runner.Scripts.Controller;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class LevelManager : MonoBehaviour {
-    public static float verticalScreenSize;
-    public static float horizontalScreenSize;
-    public static bool isGameOn = false;
-    public static bool gamePaused = false;
-    public Transform floorController;
-    public Transform enemyController;
-    public Transform playerController;
-    private GameObject floor;
-    private GameObject player;
-    private GameObject enemies;
-    public int pontuation = 0;
-    public Text pontuationText;
-    public int floorSpeedIncreaseInterval = 25;
-    private int previousFloorIncreaseStep = 0;
-    public GameObject mainMenu;
-    public GameObject pauseMenu;
-    public GameObject playerHud;
-    private int maxPoints = 0;
-    public Text highScoreText;
-
-    // Use this for initialization
-    void Awake () {
-        // Camera detected size
-        verticalScreenSize = (float) Camera.main.orthographicSize;
-        horizontalScreenSize = (verticalScreenSize * (float) Screen.width) / (float) Screen.height;
-
-        floor = Instantiate(floorController.gameObject);
-        enemies = Instantiate(enemyController.gameObject);
-        player = Instantiate(playerController.gameObject);
-
-        FloorController.OnFloorEnd += OnFloorMovement;
-        Enemy.OnPlayerCollision += OnPlayerDeath;
-    }
-
-    public void OnGameStart()
+namespace Runner.Scripts.Manager
+{
+    public class LevelManager : MonoBehaviour
     {
-        enemies.GetComponent<EnemyController>().DestroyAllEnemies();
-        floor.GetComponent<FloorController>().ResetFloorSpeed();
+        // static variables
+        public static float verticalScreenSize;
+        public static float horizontalScreenSize;
+        public static bool isGameOn = false;
+        public static bool gamePaused = false;
 
-        player.GetComponent<PlayerController>().SetupPlayerOnScene();
+        [Header("Prefabs")]
+        [SerializeField]
+        private FloorManager _floorController = null;
+        [SerializeField]
+        private EnemyManager _enemyController = null;
+        [SerializeField]
+        private PlayerManager _playerController = null;
 
-        pontuation = 0;
+        [Header("Canvases")]
+        [SerializeField]
+        private GameObject _mainMenu = null;
+        [SerializeField]
+        private GameObject _pauseMenu = null;
+        [SerializeField]
+        private GameObject _playerHud = null;
 
-        isGameOn = true;
-        DisplayMainMenu(false);
-    }
+        [Header("Texts")]
+        [SerializeField]
+        private TextMeshProUGUI _highScoreText = null;
+        [SerializeField]
+        private TextMeshProUGUI _pontuationText = null;
 
-    // Update is called once per frame
-    void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        [Header("Game parameters")]
+        [SerializeField]
+        private int _floorSpeedIncreaseInterval = 25;
+
+        private int Pontuation { get; set; } = 0;
+        private FloorManager Floor { get; set; }
+        private PlayerManager Player { get; set; }
+        private EnemyManager Enemies { get; set; }
+        private int PreviousFloorIncreaseStep { get; set; } = 0;
+        private int MaxPoints { get; set; } = 0;
+
+        // Use this for initialization
+        void Awake()
         {
-            OnPausePress();
-        } else if(!isGameOn)
-        {
-            DisplayMainMenu(true);
-        }
-    }
+            // Camera detected size
+            verticalScreenSize = Camera.main.orthographicSize;
+            horizontalScreenSize = (verticalScreenSize * Screen.width) / Screen.height;
 
-    public void DisplayMainMenu(bool isGameOver)
-    {
-        mainMenu.SetActive(isGameOver);
-        playerHud.SetActive(!isGameOver);
-    }
+            Floor = Instantiate(_floorController);
+            Enemies = Instantiate(_enemyController);
+            Player = Instantiate(_playerController);
 
-    public void OnPausePress()
-    {
-        gamePaused = !gamePaused;
-        pauseMenu.SetActive(gamePaused);
-    }
-
-    public static bool IsGamePaused()
-    {
-        return !isGameOn || gamePaused;
-    }
-
-    void OnFloorMovement(float tilePositionX, float tilePositionY)
-    {
-        enemies.GetComponent<EnemyController>().SetupEnemies(tilePositionX, tilePositionY);
-        pontuation++;
-        pontuationText.text = "Points: " + pontuation;
-
-        if (pontuation == previousFloorIncreaseStep + floorSpeedIncreaseInterval)
-        {
-            FloorController.IncreaseFloorSpeed();
-            previousFloorIncreaseStep = pontuation;
-        }
-    }
-
-    void OnPlayerDeath()
-    {
-        isGameOn = false;
-        player.GetComponent<PlayerController>().KillPlayer();
-
-        if(pontuation > maxPoints)
-        {
-            maxPoints = pontuation;
+            FloorManager.OnFloorEnd += OnFloorMovement;
+            EnemyController.OnPlayerCollision += OnPlayerDeath;
         }
 
-        highScoreText.text = "High Score: " + maxPoints;
-    }
+        public void OnGameStart()
+        {
+            Enemies.DestroyAllEnemies();
+            Floor.ResetFloorSpeed();
+            Player.SetupPlayerOnScene();
 
-    public void OnGameQuit()
-    {
-        Application.Quit();
-    }
+            Pontuation = 0;
+            isGameOn = true;
+
+            ToggleMainMenuVisibility(false);
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                OnPausePress();
+            }
+            else if (!isGameOn)
+            {
+                ToggleMainMenuVisibility(true);
+            }
+        }
+
+        public void ToggleMainMenuVisibility(bool visibility)
+        {
+            _mainMenu.SetActive(visibility);
+            _playerHud.SetActive(!visibility);
+        }
+
+        public void OnPausePress()
+        {
+            gamePaused = !gamePaused;
+            _pauseMenu.SetActive(gamePaused);
+        }
+
+        public static bool IsGamePaused()
+        {
+            return !isGameOn || gamePaused;
+        }
+
+        private void OnFloorMovement(float tilePositionX, float tilePositionY)
+        {
+            Enemies.SetupEnemies(tilePositionX, tilePositionY);
+            Pontuation++;
+            _pontuationText.text = $"Points: : {Pontuation}";
+
+            if (Pontuation == PreviousFloorIncreaseStep + _floorSpeedIncreaseInterval)
+            {
+                FloorManager.IncreaseFloorSpeed();
+                PreviousFloorIncreaseStep = Pontuation;
+            }
+        }
+
+        private void OnPlayerDeath()
+        {
+            isGameOn = false;
+            Player.KillPlayer();
+
+            if (Pontuation > MaxPoints)
+            {
+                MaxPoints = Pontuation;
+            }
+
+            _highScoreText.text = $"High Score: {MaxPoints}";
+        }
+
+        public void OnGameQuit()
+        {
+            Application.Quit();
+        }
+    } 
 }

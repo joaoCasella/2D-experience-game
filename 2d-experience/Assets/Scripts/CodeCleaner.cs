@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace Experience.Editor
+namespace Runner.Scripts.Editor
 {
     public class CodeCleaner
     {

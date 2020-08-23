@@ -1,79 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Runner.Scripts.Manager;
 using UnityEngine;
 
-public class FloorController : MonoBehaviour {
-    private Queue<Transform> floor = new Queue<Transform>();
-    public Transform floorPrefab;
-    private Transform lastFloorTile;
-    private float floorPrefabHorizontalSize;
-    private Transform firstFloorTile;
-    public static Vector2 floorSize;
-    public delegate void OnFloorCycle(float xPosition, float yPosition);
-    public static event OnFloorCycle OnFloorEnd;
+namespace Runner.Scripts.Controller
+{
+    public class FloorController : MonoBehaviour
+    {
+        public static float speed;
 
-    // Use this for initialization
-    void Awake () {
-        // Floor tile size
-        floorSize = floorPrefab.GetComponent<BoxCollider2D>().size;
-        floorPrefabHorizontalSize = floorSize.x * 5f;
-        float tilePositionHorizontalOffset = (-1f * LevelManager.horizontalScreenSize) + (floorSize.x * 2.5f);
-        float tilePositionVerticalOffset = (-1f * LevelManager.verticalScreenSize) + (floorSize.y * 2f);
+        private static float maxSpeed = 0.2f;
+        private static float speedStep = 0.01f;
 
-        float sumGameObjectHorizontalSize = 0f;
-
-        // Added two more tiles to guarantee that the replacement does not show on screen
-        float totalScreenSize = (LevelManager.horizontalScreenSize * 2f) + (2f * floorPrefabHorizontalSize);
-
-        Transform currentElement = null;
-
-        while (sumGameObjectHorizontalSize < totalScreenSize) {
-            float newTileHorizontalPosition = tilePositionHorizontalOffset + sumGameObjectHorizontalSize;
-
-            currentElement = Instantiate(floorPrefab, new Vector2(newTileHorizontalPosition, tilePositionVerticalOffset), Quaternion.identity);
-            currentElement.parent = transform;
-
-            floor.Enqueue(currentElement);
-
-            sumGameObjectHorizontalSize += floorPrefabHorizontalSize;
-        }
-
-        lastFloorTile = currentElement;
-        firstFloorTile = floor.Peek();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if(firstFloorTile.position.x < -(LevelManager.horizontalScreenSize + floorSize.x * 2f) && !LevelManager.IsGamePaused())
+        // Update is called once per frame
+        void Update()
         {
-            RecycleMovingFloorComponent();
+            if (!LevelManager.IsGamePaused())
+            {
+                transform.Translate(speed * Vector2.left);
+            }
+
         }
-    }
 
-    void RecycleMovingFloorComponent()
-    {
-        Transform gameObject = floor.Dequeue();
+        public static void IncreaseFloorSpeed()
+        {
+            if (speed < maxSpeed)
+            {
+                speed += speedStep;
+            }
+        }
 
-        float endPositionX = lastFloorTile.transform.position.x + floorPrefabHorizontalSize;
-        float endPositionY = lastFloorTile.transform.position.y;
-
-        OnFloorEnd(endPositionX, endPositionY + floorSize.y * 2.5f);
-
-        gameObject.transform.position = new Vector2(endPositionX, endPositionY);
-
-        floor.Enqueue(gameObject);
-
-        lastFloorTile = gameObject;
-        firstFloorTile = floor.Peek();
-    }
-
-    public static void IncreaseFloorSpeed()
-    {
-        Floor.IncreaseFloorSpeed();
-    }
-
-    public void ResetFloorSpeed()
-    {
-        Floor.SetupInitialFloorSpeed();
+        public static void SetupInitialFloorSpeed()
+        {
+            speed = 0.08f;
+        }
     }
 }
