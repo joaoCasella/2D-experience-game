@@ -165,13 +165,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c6f7c5d846c6048b6d0e34f9604f1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSpeed: 17
-  jumpDuration: 4.5
-  jumpHeight: 2
-  jumpAnimationSpeed: 0.23
-  runSpeed: 1
-  audioClip: {fileID: 8300000, guid: 85d955f5fe03223498ae8af877e5fdd8, type: 3}
-  playerDeathAnimationHeight: 5
+  _animator: {fileID: 95023481957030678}
+  _audioSource: {fileID: 82508578381500960}
+  _audioClip: {fileID: 8300000, guid: 85d955f5fe03223498ae8af877e5fdd8, type: 3}
+  _rigidbody2D: {fileID: 50588604146353466}
+  _jumpSpeed: 17
+  _jumpDuration: 0.085
+  _jumpHeight: 40
+  _jumpAnimationSpeed: 0.23
+  _runSpeed: 1
 --- !u!82 &82508578381500960
 AudioSource:
   m_ObjectHideFlags: 0
