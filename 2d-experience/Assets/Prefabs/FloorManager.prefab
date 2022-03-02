@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4045948870031118}
   - component: {fileID: 114246199761288050}
   m_Layer: 0
-  m_Name: FloorController
+  m_Name: FloorManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
