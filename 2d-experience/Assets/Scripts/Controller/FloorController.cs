@@ -13,7 +13,7 @@ namespace Runner.Scripts.Controller
         // Update is called once per frame
         void Update()
         {
-            if (!LevelManager.IsGamePaused())
+            if (!GameManager.IsGamePaused())
             {
                 transform.Translate(speed * Vector2.left);
             }
@@ -30,7 +30,7 @@ namespace Runner.Scripts.Controller
 
         public static void SetupInitialFloorSpeed()
         {
-            speed = 0.01f;
+            speed = 0.03f;
         }
     }
 }

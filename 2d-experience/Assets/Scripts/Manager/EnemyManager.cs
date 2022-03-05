@@ -22,7 +22,7 @@ namespace Runner.Scripts.Manager
         private void DeleteEnemiesOffScreen()
         {
             if (EnemiesQueue.Count > 0 &&
-                EnemiesQueue.Peek().position.x < (-LevelManager.horizontalScreenSize - (EnemiesQueue.Peek().GetComponent<BoxCollider2D>().size.x * 1.5f)))
+                EnemiesQueue.Peek().position.x < (-GameManager.horizontalScreenSize - (EnemiesQueue.Peek().GetComponent<BoxCollider2D>().size.x * 1.5f)))
             {
                 Transform enemyDead = EnemiesQueue.Dequeue();
 

@@ -1,4 +1,5 @@
 ﻿using Runner.Scripts.Controller;
+using System;
 using UnityEngine;
 
 namespace Runner.Scripts.Manager
@@ -16,16 +17,16 @@ namespace Runner.Scripts.Manager
             currentPlayer = Instantiate(
                 _player.gameObject,
                 new Vector2(
-                    -LevelManager.horizontalScreenSize + 9f * playerSize.x,
-                    -LevelManager.verticalScreenSize + FloorManager.floorSize.y * 2.5f + playerSize.y * 12f
+                    -GameManager.horizontalScreenSize + 9f * playerSize.x,
+                    -GameManager.verticalScreenSize + FloorManager.floorSize.y * 2.5f + playerSize.y * 12f
                 ),
                 Quaternion.identity
             );
         }
 
-        public void KillPlayer()
+        public void KillPlayer(Action onComplete)
         {
-            currentPlayer.GetComponent<PlayerController>().OnDeath();
+            currentPlayer.GetComponent<PlayerController>().OnDeath(onComplete);
         }
     }
 }

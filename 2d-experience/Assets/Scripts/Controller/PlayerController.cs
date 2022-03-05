@@ -1,4 +1,5 @@
 ﻿using Runner.Scripts.Manager;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -96,17 +97,18 @@ namespace Runner.Scripts.Controller
 
         public void ToggleRunningState()
         {
-            _isBlocked = LevelManager.IsGamePaused();
-            _animator.SetBool("playerIdle", LevelManager.IsGamePaused());
+            bool isGamePaused = GameManager.IsGamePaused();
+            _isBlocked = isGamePaused;
+            _animator.SetBool("playerIdle", isGamePaused);
         }
 
-        public void OnDeath()
+        public void OnDeath(Action onComplete)
         {
             StopAllCoroutines();
-            StartCoroutine(Death());
+            StartCoroutine(Death(onComplete));
         }
 
-        private IEnumerator Death()
+        private IEnumerator Death(Action onComplete)
         {
             _animator.SetTrigger("deathTrigger");
 
@@ -114,12 +116,14 @@ namespace Runner.Scripts.Controller
 
             Destroy(GetComponent<BoxCollider2D>());
 
-            while (transform.position.y > -LevelManager.verticalScreenSize)
+            while (transform.position.y > -GameManager.verticalScreenSize)
             {
                 yield return null;
             }
 
             Destroy(transform.gameObject);
+
+            onComplete();
         }
     }
 }
