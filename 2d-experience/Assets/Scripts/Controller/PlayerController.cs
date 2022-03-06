@@ -21,8 +21,6 @@ namespace Runner.Scripts.Controller
 
         [Header("Player parameters")]
         [SerializeField]
-        private float _jumpSpeed = 17f;
-        [SerializeField]
         private float _jumpDuration = 4.5f;
         [SerializeField]
         private float _jumpHeight = 2f;
@@ -34,11 +32,12 @@ namespace Runner.Scripts.Controller
         private bool _isBlocked = false;
         private readonly float _playerDeathAnimationHeight = 5f;
 
-        private float JumpSpeed { get => _jumpSpeed; set => _jumpSpeed = value; }
-        private float JumpDuration { get => _jumpDuration; set => _jumpDuration = value; }
-        private float JumpHeight { get => _jumpHeight; set => _jumpHeight = value; }
-        private float JumpAnimationSpeed { get => _jumpAnimationSpeed; set => _jumpAnimationSpeed = value; }
-        private float RunSpeed { get => _runSpeed; set => _runSpeed = value; }
+        // Allows to accelerate the jump duration
+        private float JumpTimescale { get; set; } = 1f;
+        private float JumpDuration => _jumpDuration;
+        private float JumpHeight => _jumpHeight;
+        private float JumpAnimationSpeed => _jumpAnimationSpeed;
+        private float RunSpeed => _runSpeed;
 
         // Use this for initialization
         void Start()
@@ -56,43 +55,56 @@ namespace Runner.Scripts.Controller
             {
                 _audioSource.PlayOneShot(_audioClip, jumpSoundVolume);
 
-                StartCoroutine(Jump());
+                StartJump();
             }
         }
 
-        private IEnumerator Jump()
+        private void StartJump()
         {
             _isBlocked = true;
             _animator.SetTrigger("jumpTrigger");
 
-            float horizontalCoordinate = transform.position.x;
-            float currentPositionY = transform.position.y;
-
-            //float force = Mathf.Abs(_rigidbody2D.mass * JumpDuration * Physics2D.gravity.y / Time.deltaTime);
-            //Debug.Log($"[PlayerController] _rigidbody2D.mass: {_rigidbody2D.mass}, JumpDuration: {JumpDuration}, Physics2D.gravity.y: {Physics2D.gravity.y}, Time.deltaTime: {Time.deltaTime}");
-            //_rigidbody2D.AddForce(Vector2.up * JumpSpeed, ForceMode2D.Impulse);
-
-            //yield return null;
-
-            yield return StartCoroutine(MoveCharacter(new Vector2(horizontalCoordinate, currentPositionY), new Vector2(horizontalCoordinate, JumpHeight + currentPositionY), JumpSpeed, JumpDuration));
-
-            yield return StartCoroutine(MoveCharacter(new Vector2(horizontalCoordinate, JumpHeight + currentPositionY), new Vector2(horizontalCoordinate, currentPositionY), JumpSpeed, JumpDuration));
-
-            _isBlocked = false;
+            StartCoroutine(Jump());
         }
 
-        IEnumerator MoveCharacter(Vector2 currentPosition, Vector2 destinationPosition, float speed, float duration)
+        // TODO: refactor jump logic to make it fell better
+        // (06/03/2022) Based on "Math for Game Programmers: Building a Better Jump", available at: https://www.youtube.com/watch?v=hG9SzQxaCm8
+        // pos += velocity * deltaTime + ((acceleration * (deltaTime ^ 2)) / 2)
+        // velocity  += acceleration * deltaTime
+        // f(t) = (((g * t) ^ 2) / 2) + v0 * t + p0
+        // v0 = 2 * Height * Vx / xh
+        // g = -2 * Height * (Vx ^ 2) / (xh ^ 2)
+        // where:
+        // p0 is the initial position (usually, 0)
+        // v0 is the vertical velocity
+        // Height is the vertical position in the top of the parabola
+        // vx is the initial horizontal velocity
+        // xh is the horizontal position in the top of the parabola
+        private IEnumerator Jump()
         {
-            float step = (speed / (currentPosition - destinationPosition).magnitude) * Time.deltaTime;
-            float t = 0;
+            Vector2 currentPosition = transform.position;
+            Vector2 destinationPosition = currentPosition + JumpHeight * Vector2.up;
 
-            while (t <= duration)
+            float step = JumpTimescale / JumpDuration;
+            float t = 0;
+            while (t < 1f)
             {
-                t += step;
+                t += step * Time.deltaTime;
                 transform.position = Vector2.Lerp(currentPosition, destinationPosition, t);
                 yield return null;
             }
             transform.position = destinationPosition;
+
+            t = 0;
+            while (t < 1f)
+            {
+                t += (step * 1.5f * Time.deltaTime);
+                transform.position = Vector2.Lerp(destinationPosition, currentPosition, t);
+                yield return null;
+            }
+            transform.position = currentPosition;
+
+            _isBlocked = false;
         }
 
         public void ToggleRunningState()
