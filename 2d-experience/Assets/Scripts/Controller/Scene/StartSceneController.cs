@@ -10,7 +10,7 @@ namespace Runner.Scripts.Controller.Scene
         private StartupMenuView _startupMenu = null;
 
         // Use this for initialization
-        void Awake()
+        void Start()
         {
             _startupMenu.Setup(
                 GameManager.gameName,

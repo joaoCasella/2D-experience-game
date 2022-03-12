@@ -7,111 +7,128 @@ namespace Runner.Scripts.Controller
 {
     public class PlayerController : MonoBehaviour
     {
-        public static float jumpSoundVolume = .5f;
+        private const float JumpSoundVolume = 0.5f;
+        private const float PlayerDeathAnimationHeight = 5f;
 
-        [Header("Components")]
-        [SerializeField]
-        private Animator _animator;
-        [SerializeField]
-        private AudioSource _audioSource;
-        [SerializeField]
-        private AudioClip _audioClip;
-        [SerializeField]
-        private Rigidbody2D _rigidbody2D;
+        [field: Header("Components")]
+        [field: SerializeField]
+        private Animator Animator { get; set; }
 
-        [Header("Player parameters")]
-        [SerializeField]
-        private float _jumpDuration = 4.5f;
-        [SerializeField]
-        private float _jumpHeight = 2f;
-        [SerializeField]
-        private float _jumpAnimationSpeed = 0.23f;
-        [SerializeField]
-        private float _runSpeed = 1f;
+        [field: SerializeField]
+        private AudioSource AudioSource { get; set; }
 
-        private bool _isBlocked = false;
-        private readonly float _playerDeathAnimationHeight = 5f;
+        [field: SerializeField]
+        private Rigidbody2D Rigidbody { get; set; }
 
-        // Allows to accelerate the jump duration
-        private float JumpTimescale { get; set; } = 1f;
-        private float JumpDuration => _jumpDuration;
-        private float JumpHeight => _jumpHeight;
-        private float JumpAnimationSpeed => _jumpAnimationSpeed;
-        private float RunSpeed => _runSpeed;
+        [field: SerializeField]
+        private BoxCollider2D BoxCollider { get; set; }
+
+
+        [field: Header("Audio clip")]
+        [field: SerializeField]
+        private AudioClip JumpSound;
+
+        [field: Header("Player parameters")]
+        [field: SerializeField]
+        private float JumpHeight { get; set; } = 2.8f;
+
+        [field: SerializeField]
+        private float JumpTime { get; set; } = 0.4f;
+
+        [field: SerializeField]
+        private float FallGravityMultiplier { get; set; } = 2f;
+
+        [field: SerializeField]
+        private float RunSpeed { get; set; } = 1f;
+
+        private bool IsBlocked { get; set; }
+
+        private Coroutine JumpCoroutine { get; set; }
 
         // Use this for initialization
         void Start()
         {
-            _animator.SetFloat("runSpeed", RunSpeed);
-            _animator.SetFloat("jumpSpeed", JumpAnimationSpeed);
+            Animator.SetFloat("runSpeed", RunSpeed);
+
+            GameManager.Instance.OnGamePaused += OnGamePaused;
         }
 
         // Update is called once per frame
         void Update()
         {
-            ToggleRunningState();
+            if (!Input.GetKeyDown(KeyCode.Space) || IsBlocked)
+                return;
 
-            if (Input.GetKeyDown(KeyCode.Space) && !_isBlocked)
-            {
-                _audioSource.PlayOneShot(_audioClip, jumpSoundVolume);
-
-                StartJump();
-            }
+            StartJump();
         }
 
         private void StartJump()
         {
-            _isBlocked = true;
-            _animator.SetTrigger("jumpTrigger");
+            IsBlocked = true;
 
-            StartCoroutine(Jump());
+            AudioSource.PlayOneShot(JumpSound, JumpSoundVolume);
+            Animator.SetTrigger("jumpTrigger");
+
+            if (JumpCoroutine != null)
+                StopCoroutine(JumpCoroutine);
+
+            JumpCoroutine = StartCoroutine(Jump());
         }
 
-        // TODO: refactor jump logic to make it fell better
         // (06/03/2022) Based on "Math for Game Programmers: Building a Better Jump", available at: https://www.youtube.com/watch?v=hG9SzQxaCm8
-        // pos += velocity * deltaTime + ((acceleration * (deltaTime ^ 2)) / 2)
-        // velocity  += acceleration * deltaTime
-        // f(t) = (((g * t) ^ 2) / 2) + v0 * t + p0
-        // v0 = 2 * Height * Vx / xh
-        // g = -2 * Height * (Vx ^ 2) / (xh ^ 2)
-        // where:
-        // p0 is the initial position (usually, 0)
-        // v0 is the vertical velocity
-        // Height is the vertical position in the top of the parabola
-        // vx is the initial horizontal velocity
-        // xh is the horizontal position in the top of the parabola
         private IEnumerator Jump()
         {
-            Vector2 currentPosition = transform.position;
-            Vector2 destinationPosition = currentPosition + JumpHeight * Vector2.up;
+            // th is the time will take to take the player to the top of the parabola
+            // This is the reciprocal of that value
+            var oneOverTime = 1f / JumpTime;
 
-            float step = JumpTimescale / JumpDuration;
-            float t = 0;
-            while (t < 1f)
+            // v0 = 2 * JumpHeight / th
+            var verticalVelocity = 2f * JumpHeight * oneOverTime;
+            // g = -2 * JumpHeight / (th ^ 2)
+            var gravity = -(verticalVelocity) * oneOverTime;
+
+            var initialPosition = transform.position;
+            var updatedFallGravity = false;
+
+            do
             {
-                t += step * Time.deltaTime;
-                transform.position = Vector2.Lerp(currentPosition, destinationPosition, t);
+                var deltaTime = Time.deltaTime;
+                var heightIncrement = (verticalVelocity * deltaTime) + (gravity * deltaTime * deltaTime * 0.5f);
+
+                // Prevents miscalculation
+                if (transform.position.y + heightIncrement <= initialPosition.y)
+                {
+                    transform.position = initialPosition;
+                    break;
+                }
+
+                transform.position += heightIncrement * Vector3.up;
+                verticalVelocity += gravity * deltaTime;
+
+                if (!updatedFallGravity
+                    && verticalVelocity <= 0f)
+                {
+                    Animator.SetTrigger("jumpFall");
+                    updatedFallGravity = true;
+                    gravity *= FallGravityMultiplier;
+                }
+
                 yield return null;
             }
-            transform.position = destinationPosition;
+            while (transform.position.y > initialPosition.y);
 
-            t = 0;
-            while (t < 1f)
-            {
-                t += (step * 1.5f * Time.deltaTime);
-                transform.position = Vector2.Lerp(destinationPosition, currentPosition, t);
-                yield return null;
-            }
-            transform.position = currentPosition;
-
-            _isBlocked = false;
+            Animator.SetTrigger("jumpEnd");
+            IsBlocked = false;
+            JumpCoroutine = null;
         }
 
-        public void ToggleRunningState()
+        private void OnGamePaused(bool paused)
         {
-            bool isGamePaused = GameManager.IsGamePaused();
-            _isBlocked = isGamePaused;
-            _animator.SetBool("playerIdle", isGamePaused);
+            if (JumpCoroutine != null)
+                return;
+
+            IsBlocked = paused;
+            Animator.SetBool("playerIdle", paused);
         }
 
         public void OnDeath(Action onComplete)
@@ -122,11 +139,11 @@ namespace Runner.Scripts.Controller
 
         private IEnumerator Death(Action onComplete)
         {
-            _animator.SetTrigger("deathTrigger");
+            Animator.SetTrigger("deathTrigger");
 
-            transform.GetComponent<Rigidbody2D>().AddForce(Vector2.up * _playerDeathAnimationHeight, ForceMode2D.Impulse);
+            Rigidbody.AddForce(Vector2.up * PlayerDeathAnimationHeight, ForceMode2D.Impulse);
 
-            Destroy(GetComponent<BoxCollider2D>());
+            Destroy(BoxCollider);
 
             while (transform.position.y > -GameManager.verticalScreenSize)
             {
@@ -136,6 +153,15 @@ namespace Runner.Scripts.Controller
             Destroy(transform.gameObject);
 
             onComplete();
+        }
+
+        private void OnDestroy()
+        {
+            if (GameManager.Instance != null)
+                GameManager.Instance.OnGamePaused -= OnGamePaused;
+
+            if (JumpCoroutine != null)
+                StopCoroutine(JumpCoroutine);
         }
     }
 }

@@ -52,4 +52,4 @@ MonoBehaviour:
   _pauseMenu: {fileID: 0}
   _playerHud: {fileID: 0}
   _pontuationText: {fileID: 0}
-  _floorSpeedIncreaseInterval: 25
+  _floorSpeedIncreaseInterval: 30

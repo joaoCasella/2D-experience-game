@@ -7,30 +7,30 @@ namespace Runner.Scripts.Controller
     {
         public static float speed;
 
-        private static float maxSpeed = 0.01f;
-        private static float speedStep = 0.01f;
+        private static readonly float initialSpeed = 0.015f;
+        private static readonly float maxSpeed = 0.06f;
+        private static readonly float speedStep = 0.0025f;
 
         // Update is called once per frame
         void Update()
         {
-            if (!GameManager.IsGamePaused())
-            {
-                transform.Translate(speed * Vector2.left);
-            }
+            if (GameManager.IsGamePaused())
+                return;
 
+            transform.position += speed * Vector3.left;
         }
 
         public static void IncreaseFloorSpeed()
         {
-            if (speed < maxSpeed)
-            {
-                speed += speedStep;
-            }
+            if (speed >= maxSpeed)
+                return;
+
+            speed += speedStep;
         }
 
         public static void SetupInitialFloorSpeed()
         {
-            speed = 0.03f;
+            speed = initialSpeed;
         }
     }
 }

@@ -165,14 +165,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c6f7c5d846c6048b6d0e34f9604f1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 95023481957030678}
-  _audioSource: {fileID: 82508578381500960}
-  _audioClip: {fileID: 8300000, guid: 85d955f5fe03223498ae8af877e5fdd8, type: 3}
-  _rigidbody2D: {fileID: 50588604146353466}
-  _jumpDuration: 0.4
-  _jumpHeight: 2.65
-  _jumpAnimationSpeed: 0.22
-  _runSpeed: 1
+  <Animator>k__BackingField: {fileID: 95023481957030678}
+  <AudioSource>k__BackingField: {fileID: 82508578381500960}
+  <Rigidbody>k__BackingField: {fileID: 50588604146353466}
+  <BoxCollider>k__BackingField: {fileID: 61682786957903518}
+  JumpSound: {fileID: 8300000, guid: 85d955f5fe03223498ae8af877e5fdd8, type: 3}
+  <JumpHeight>k__BackingField: 2.8
+  <JumpTime>k__BackingField: 0.4
+  <FallGravityMultiplier>k__BackingField: 2
+  <RunSpeed>k__BackingField: 1
 --- !u!82 &82508578381500960
 AudioSource:
   m_ObjectHideFlags: 0

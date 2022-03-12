@@ -16,30 +16,32 @@ namespace Runner.Scripts.Manager
         public static float horizontalScreenSize;
         public static bool isGameOn = false;
         public static bool gamePaused = false;
+        public static float GameTimescale => Time.timeScale;
+        private static float previousTimescale = 1f;
 
         public int Pontuation { get; set; } = 0;
         public int HighestScore { get; set; } = 0;
 
+        public delegate void GamePaused(bool paused);
+        public event GamePaused OnGamePaused;
+
         private static GameManager _gameManager;
-
-        public static GameManager Instance
-        {
-            get
-            {
-                if (_gameManager == null)
-                {
-                    var levelManagerGameObject = new GameObject("GameManager", typeof(GameManager));
-                    _gameManager = levelManagerGameObject.GetComponent<GameManager>();
-                    DontDestroyOnLoad(_gameManager.gameObject);
-                }
-
-                return _gameManager;
-            }
-        }
+        public static GameManager Instance => _gameManager;
 
         // Use this for initialization
         void Awake()
         {
+            if (_gameManager == null)
+            {
+                _gameManager = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else if (_gameManager != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
             // Camera detected size
             verticalScreenSize = Camera.main.orthographicSize;
             horizontalScreenSize = (verticalScreenSize * Screen.width) / Screen.height;
@@ -71,6 +73,13 @@ namespace Runner.Scripts.Manager
         public void OnPausePress()
         {
             gamePaused = !gamePaused;
+
+            var currentTimescale = Time.timeScale;
+            var newTimescale = gamePaused ? 0f : previousTimescale;
+            previousTimescale = currentTimescale;
+            Time.timeScale = newTimescale;
+
+            OnGamePaused(gamePaused);
         }
 
         public static bool IsGamePaused()
