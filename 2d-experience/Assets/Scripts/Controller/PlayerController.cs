@@ -134,23 +134,70 @@ namespace Runner.Scripts.Controller
         public void OnDeath(Action onComplete)
         {
             StopAllCoroutines();
-            StartCoroutine(Death(onComplete));
+            Death(onComplete);
         }
 
-        private IEnumerator Death(Action onComplete)
+        private void Death(Action onComplete)
         {
-            Animator.SetTrigger("deathTrigger");
+            IsBlocked = true;
 
-            Rigidbody.AddForce(Vector2.up * PlayerDeathAnimationHeight, ForceMode2D.Impulse);
+            Animator.SetTrigger("deathTrigger");
 
             Destroy(BoxCollider);
 
-            while (transform.position.y > -GameManager.verticalScreenSize)
+            StartCoroutine(FallOnDeath(
+                0.5f,
+                1.8f,
+                new Vector3(transform.position.x, -GameManager.verticalScreenSize - 0.5f, transform.position.z),
+                () =>
+                {
+                    Destroy(gameObject);
+                    onComplete();
+                }));
+
+        }
+
+        // TODO: refactor jump to represent parabolic movement so that we can use that function here
+        private IEnumerator FallOnDeath(
+            float fallTime,
+            float descendGravityMultiplier,
+            Vector3 finalPosition,
+            Action onComplete)
+        {
+            var oneOverTime = 1f / fallTime;
+
+            // v0 = 2 * JumpHeight / th
+            var verticalVelocity = 2f * JumpHeight * oneOverTime;
+            // g = -2 * JumpHeight / (th ^ 2)
+            var gravity = -(verticalVelocity) * oneOverTime;
+
+            var updatedFallGravity = false;
+
+            do
             {
+                var deltaTime = Time.deltaTime;
+                var heightIncrement = (verticalVelocity * deltaTime) + (gravity * deltaTime * deltaTime * 0.5f);
+
+                // Prevents miscalculation
+                if (transform.position.y + heightIncrement <= finalPosition.y)
+                {
+                    transform.position = finalPosition;
+                    break;
+                }
+
+                transform.position += heightIncrement * Vector3.up;
+                verticalVelocity += gravity * deltaTime;
+
+                if (!updatedFallGravity
+                    && verticalVelocity <= 0f)
+                {
+                    updatedFallGravity = true;
+                    gravity *= descendGravityMultiplier;
+                }
+
                 yield return null;
             }
-
-            Destroy(transform.gameObject);
+            while (transform.position.y > finalPosition.y);
 
             onComplete();
         }

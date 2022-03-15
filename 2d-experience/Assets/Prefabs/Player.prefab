@@ -114,7 +114,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1282603668025192}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -170,9 +170,9 @@ MonoBehaviour:
   <Rigidbody>k__BackingField: {fileID: 50588604146353466}
   <BoxCollider>k__BackingField: {fileID: 61682786957903518}
   JumpSound: {fileID: 8300000, guid: 85d955f5fe03223498ae8af877e5fdd8, type: 3}
-  <JumpHeight>k__BackingField: 2.8
-  <JumpTime>k__BackingField: 0.4
-  <FallGravityMultiplier>k__BackingField: 2
+  <JumpHeight>k__BackingField: 1.8
+  <JumpTime>k__BackingField: 0.36
+  <FallGravityMultiplier>k__BackingField: 1.8
   <RunSpeed>k__BackingField: 1
 --- !u!82 &82508578381500960
 AudioSource:

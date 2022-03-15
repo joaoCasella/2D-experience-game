@@ -18,7 +18,7 @@ namespace Runner.Scripts.Manager
                 _player.gameObject,
                 new Vector2(
                     -GameManager.horizontalScreenSize + 9f * playerSize.x,
-                    -GameManager.verticalScreenSize + FloorManager.floorSize.y * 2.5f + playerSize.y * 12f
+                    -GameManager.verticalScreenSize + FloorManager.floorSize.y * 2.5f + playerSize.y * 10f
                 ),
                 Quaternion.identity
             );
