@@ -11,6 +11,7 @@ namespace Runner.Scripts.Controller.Scene
 
         private void Awake()
         {
+            Camera.main.orthographicSize *= GameManager.cameraScaleFactor;
             _levelManager.Setup();
         }
     }

@@ -17,8 +17,8 @@ namespace Runner.Scripts.Manager
             currentPlayer = Instantiate(
                 _player.gameObject,
                 new Vector2(
-                    -GameManager.horizontalScreenSize + 9f * playerSize.x,
-                    -GameManager.verticalScreenSize + FloorManager.floorSize.y * 2.5f + playerSize.y * 10f
+                    -GameManager.halfHorizontalScreenSize + 9f * playerSize.x,
+                    -GameManager.halfVerticalScreenSize + FloorManager.floorSize.y * 2.5f + playerSize.y * 10f
                 ),
                 Quaternion.identity
             );

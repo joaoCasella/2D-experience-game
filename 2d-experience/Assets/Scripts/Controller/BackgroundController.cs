@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Runner.Scripts.Manager;
+using UnityEngine;
 
 namespace Runner.Scripts.Controller
 {
@@ -8,7 +9,7 @@ namespace Runner.Scripts.Controller
         private SpriteRenderer _backgroundSprite = null;
 
         // Start is called before the first frame update
-        void Awake()
+        void Start()
         {
             ResizeBackgroundToFillScreen();
         }
@@ -18,10 +19,8 @@ namespace Runner.Scripts.Controller
         private void ResizeBackgroundToFillScreen()
         {
             var sprite = _backgroundSprite.sprite.bounds.size;
-            var worldScreenHeight = Camera.main.orthographicSize * 2;
-            var worldScreenWidth = worldScreenHeight * Screen.width / Screen.height;
-
-            _backgroundSprite.transform.localScale = Vector2.one * Mathf.Max(worldScreenWidth / sprite.x, worldScreenHeight / sprite.y);
+            var expandScale = 2f * Mathf.Max(GameManager.halfHorizontalScreenSize / sprite.x, GameManager.halfVerticalScreenSize / sprite.y);
+            _backgroundSprite.transform.localScale = Vector2.one * expandScale;
         }
     }
 }

@@ -148,7 +148,7 @@ namespace Runner.Scripts.Controller
             StartCoroutine(FallOnDeath(
                 0.5f,
                 1.8f,
-                new Vector3(transform.position.x, -GameManager.verticalScreenSize - 0.5f, transform.position.z),
+                new Vector3(transform.position.x, -GameManager.halfVerticalScreenSize - 0.5f, transform.position.z),
                 () =>
                 {
                     Destroy(gameObject);

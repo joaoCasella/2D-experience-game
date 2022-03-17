@@ -27,13 +27,13 @@ namespace Runner.Scripts.Controller
             // Floor tile size
             floorSize = _floorPrefab.GetComponent<BoxCollider2D>().size;
             FloorPrefabHorizontalSize = floorSize.x * 5f;
-            float tilePositionHorizontalOffset = (floorSize.x * 2.5f) - GameManager.horizontalScreenSize;
-            float tilePositionVerticalOffset = (floorSize.y * 2f) - GameManager.verticalScreenSize;
+            float tilePositionHorizontalOffset = (floorSize.x * 2.5f) - GameManager.halfHorizontalScreenSize;
+            float tilePositionVerticalOffset = (floorSize.y * 2f) - GameManager.halfVerticalScreenSize;
 
             float sumGameObjectHorizontalSize = 0f;
 
             // Added two more tiles to guarantee that the replacement does not show on screen
-            float totalScreenSize = (GameManager.horizontalScreenSize + FloorPrefabHorizontalSize) * 2f;
+            float totalScreenSize = (GameManager.halfHorizontalScreenSize + FloorPrefabHorizontalSize) * 2f;
 
             Transform currentElement = null;
 
@@ -55,7 +55,7 @@ namespace Runner.Scripts.Controller
         // Update is called once per frame
         void Update()
         {
-            if (FirstFloorTile.position.x < -(GameManager.horizontalScreenSize + floorSize.x * 2f) && !GameManager.IsGamePaused())
+            if (FirstFloorTile.position.x < -(GameManager.halfHorizontalScreenSize + floorSize.x * 2f) && !GameManager.IsGamePaused())
             {
                 RecycleMovingFloorComponent();
             }
