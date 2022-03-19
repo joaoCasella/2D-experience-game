@@ -6,6 +6,14 @@ namespace Runner.Scripts.Manager
 {
     public class LevelManager : MonoBehaviour
     {
+        [Header("References")]
+        [SerializeField]
+        private SpriteMask _gameMask = null;
+        [SerializeField]
+        private BackgroundController _backgroundController = null;
+        [SerializeField]
+        private Transform _levelContainer = null;
+
         [Header("Prefabs")]
         [SerializeField]
         private FloorManager _floorController = null;
@@ -35,9 +43,23 @@ namespace Runner.Scripts.Manager
 
         public void Setup()
         {
-            Floor = Instantiate(_floorController);
-            Enemies = Instantiate(_enemyController);
-            Player = Instantiate(_playerController);
+            var gameMaskBoundsSize = _gameMask.sprite.bounds.size;
+
+            _gameMask.transform.localScale = new Vector3(
+                2f * GameManager.halfHorizontalScreenSize / gameMaskBoundsSize.x,
+                2f * GameManager.halfVerticalScreenSize / gameMaskBoundsSize.y,
+                _gameMask.transform.localScale.z);
+
+            _levelContainer.localScale = new Vector3(
+                2f * GameManager.halfHorizontalScreenSize,
+                2f * GameManager.halfVerticalScreenSize,
+                _levelContainer.localScale.z);
+
+            _backgroundController.SetupBackgroundSize();
+
+            Floor = Instantiate(_floorController, _levelContainer, true);
+            Enemies = Instantiate(_enemyController, _levelContainer, true);
+            Player = Instantiate(_playerController, _levelContainer, true);
 
             FloorManager.OnFloorEnd += OnFloorMovement;
             EnemyController.OnPlayerCollision += OnPlayerDeath;

@@ -16,7 +16,7 @@ namespace Runner.Scripts.Manager
         // static variables
         public static float halfVerticalScreenSize;
         public static float halfHorizontalScreenSize;
-        public static float cameraScaleFactor;
+        public static float cameraScaleFactor = 1f;
         public static bool isGameOn = false;
         public static bool gamePaused = false;
         public static float GameTimescale => Time.timeScale;
@@ -48,14 +48,26 @@ namespace Runner.Scripts.Manager
             // Adjust the camera ortographic size to prioritize the screen length
             var aspectRatio = (float) Screen.width / Screen.height;
             var nativeAspectRatio = nativeGameWidth / nativeGameHeight;
-            cameraScaleFactor = nativeAspectRatio / aspectRatio;
+
+            // If current aspect ratio is lesser than the native one,
+            // the game will match the game width and insert black bars
+            // on the vertical spaces left
+            if (aspectRatio < nativeAspectRatio)
+            {
+                // Camera ortographic size should be modified to contain
+                // the width, expanding the height accordingly
+                cameraScaleFactor = nativeAspectRatio / aspectRatio;
+            }
 
             var mainCamera = Camera.main;
-            mainCamera.orthographicSize *= cameraScaleFactor;
 
-            // Camera detected size
+            // Solution based on the thread: https://answers.unity.com/questions/620699/scaling-my-background-sprite-to-fill-screen-2d-1.html
+            // Acessed in: 22/08/2020
+            // Original screen size (keeps the proportions)
             halfVerticalScreenSize = mainCamera.orthographicSize;
-            halfHorizontalScreenSize = (halfVerticalScreenSize * Screen.width) / Screen.height;
+            halfHorizontalScreenSize = halfVerticalScreenSize * nativeAspectRatio;
+
+            mainCamera.orthographicSize *= cameraScaleFactor;
         }
 
         public void LoadScene(string sceneName, Action onComplete)
