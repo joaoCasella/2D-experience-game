@@ -30,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1282603668025192}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.58, y: -0.82, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -116,7 +116,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 1282603668025192}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -140,7 +140,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.01, y: -0.05}
+  m_Offset: {x: -0.015, y: -0.049999997}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -151,7 +151,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.19, y: 0.22}
+  m_Size: {x: 0.12, y: 0.22}
   m_EdgeRadius: 0
 --- !u!114 &114319013866271388
 MonoBehaviour:
@@ -167,7 +167,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Animator>k__BackingField: {fileID: 95023481957030678}
   <AudioSource>k__BackingField: {fileID: 82508578381500960}
-  <Rigidbody>k__BackingField: {fileID: 50588604146353466}
   <BoxCollider>k__BackingField: {fileID: 61682786957903518}
   JumpSound: {fileID: 8300000, guid: 85d955f5fe03223498ae8af877e5fdd8, type: 3}
   <JumpHeight>k__BackingField: 1.8

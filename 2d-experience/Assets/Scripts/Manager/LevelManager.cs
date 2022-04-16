@@ -65,6 +65,7 @@ namespace Runner.Scripts.Manager
             EnemyController.OnPlayerCollision += OnPlayerDeath;
 
             Enemies.DestroyAllEnemies();
+            Floor.Setup();
             Floor.ResetFloorSpeed();
             Player.SetupPlayerOnScene();
 
@@ -98,9 +99,9 @@ namespace Runner.Scripts.Manager
             _pauseMenu.SetActive(GameManager.gamePaused);
         }
 
-        private void OnFloorMovement(float tilePositionX, float tilePositionY)
+        private void OnFloorMovement(Transform floor, float floorVerticalSize)
         {
-            Enemies.SetupEnemies(tilePositionX, tilePositionY);
+            Enemies.SetupEnemies(floor, floorVerticalSize);
             GameManager.Instance.Pontuation++;
             _pontuationText.text = $"Points: : {GameManager.Instance.Pontuation}";
 

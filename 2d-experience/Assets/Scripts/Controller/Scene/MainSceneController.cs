@@ -9,7 +9,7 @@ namespace Runner.Scripts.Controller.Scene
         [SerializeField]
         private LevelManager _levelManager = null;
 
-        private void Awake()
+        private void Start()
         {
             Camera.main.orthographicSize *= GameManager.cameraScaleFactor;
             _levelManager.Setup();

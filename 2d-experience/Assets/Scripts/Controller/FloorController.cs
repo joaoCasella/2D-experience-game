@@ -5,11 +5,15 @@ namespace Runner.Scripts.Controller
 {
     public class FloorController : MonoBehaviour
     {
+        public Vector2 Size => new Vector2(BoxCollider.size.x * transform.localScale.x, BoxCollider.size.y * transform.localScale.y);
         public static float speed;
 
         private static readonly float initialSpeed = 0.015f;
         private static readonly float maxSpeed = 0.06f;
         private static readonly float speedStep = 0.0025f;
+
+        [field: SerializeField]
+        private BoxCollider2D BoxCollider { get; set; }
 
         // Update is called once per frame
         void Update()

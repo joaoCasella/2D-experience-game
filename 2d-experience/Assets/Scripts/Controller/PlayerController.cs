@@ -8,7 +8,12 @@ namespace Runner.Scripts.Controller
     public class PlayerController : MonoBehaviour
     {
         private const float JumpSoundVolume = 0.5f;
-        private const float PlayerDeathAnimationHeight = 5f;
+        public Vector2 Size => new Vector2(
+            BoxCollider.size.x * transform.localScale.x,
+            BoxCollider.size.y * transform.localScale.y);
+        public Vector2 PositionOffset => new Vector2(
+            BoxCollider.offset.x * transform.localScale.x,
+            BoxCollider.offset.y * transform.localScale.y);
 
         [field: Header("Components")]
         [field: SerializeField]
@@ -18,10 +23,7 @@ namespace Runner.Scripts.Controller
         private AudioSource AudioSource { get; set; }
 
         [field: SerializeField]
-        private Rigidbody2D Rigidbody { get; set; }
-
-        [field: SerializeField]
-        private BoxCollider2D BoxCollider { get; set; }
+        public BoxCollider2D BoxCollider { get; private set; }
 
 
         [field: Header("Audio clip")]

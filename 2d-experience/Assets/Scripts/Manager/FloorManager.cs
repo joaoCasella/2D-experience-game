@@ -8,9 +8,9 @@ namespace Runner.Scripts.Controller
     {
         public static Vector2 floorSize;
 
-        [Header("Prefab")]
-        [SerializeField]
-        private Transform _floorPrefab;
+        [field: Header("Prefab")]
+        [field: SerializeField]
+        private FloorController FloorPrefab { get; set; }
 
         private Queue<Transform> Floor { get; set; } = new Queue<Transform>();
         private Transform LastFloorTile { get; set; }
@@ -18,17 +18,16 @@ namespace Runner.Scripts.Controller
         private Transform FirstFloorTile { get; set; }
 
         // Delegates
-        public delegate void OnFloorCycle(float xPosition, float yPosition);
+        public delegate void OnFloorCycle(Transform floor, float floorVerticalSize);
         public static event OnFloorCycle OnFloorEnd;
 
-        // Use this for initialization
-        void Awake()
+        public void Setup()
         {
-            // Floor tile size
-            floorSize = _floorPrefab.GetComponent<BoxCollider2D>().size;
-            FloorPrefabHorizontalSize = floorSize.x * 5f;
-            float tilePositionHorizontalOffset = (floorSize.x * 2.5f) - GameManager.halfHorizontalScreenSize;
-            float tilePositionVerticalOffset = (floorSize.y * 2f) - GameManager.halfVerticalScreenSize;
+            // Cache floor tile size
+            floorSize = FloorPrefab.Size;
+            FloorPrefabHorizontalSize = floorSize.x;
+            float tilePositionHorizontalOffset = (floorSize.x * 0.5f) - (GameManager.halfHorizontalScreenSize);
+            float tilePositionVerticalOffset = (floorSize.y * 0.5f) - (GameManager.halfVerticalScreenSize);
 
             float sumGameObjectHorizontalSize = 0f;
 
@@ -41,7 +40,10 @@ namespace Runner.Scripts.Controller
             {
                 float newTileHorizontalPosition = tilePositionHorizontalOffset + sumGameObjectHorizontalSize;
 
-                currentElement = Instantiate(_floorPrefab, new Vector2(newTileHorizontalPosition, tilePositionVerticalOffset), Quaternion.identity, transform);
+                currentElement = Instantiate(FloorPrefab,
+                    new Vector2(newTileHorizontalPosition, tilePositionVerticalOffset),
+                    Quaternion.identity,
+                    transform).transform;
 
                 Floor.Enqueue(currentElement);
 
@@ -55,7 +57,7 @@ namespace Runner.Scripts.Controller
         // Update is called once per frame
         void Update()
         {
-            if (FirstFloorTile.position.x < -(GameManager.halfHorizontalScreenSize + floorSize.x * 2f) && !GameManager.IsGamePaused())
+            if (FirstFloorTile.position.x < -(GameManager.halfHorizontalScreenSize + floorSize.x) && !GameManager.IsGamePaused())
             {
                 RecycleMovingFloorComponent();
             }
@@ -63,18 +65,18 @@ namespace Runner.Scripts.Controller
 
         private void RecycleMovingFloorComponent()
         {
-            Transform gameObject = Floor.Dequeue();
+            Transform floor = Floor.Dequeue();
 
             float endPositionX = LastFloorTile.transform.position.x + FloorPrefabHorizontalSize;
             float endPositionY = LastFloorTile.transform.position.y;
 
-            OnFloorEnd(endPositionX, endPositionY + floorSize.y * 2.5f);
+            OnFloorEnd(floor, floorSize.y);
 
-            gameObject.transform.position = new Vector2(endPositionX, endPositionY);
+            floor.transform.position = new Vector2(endPositionX, endPositionY);
 
-            Floor.Enqueue(gameObject);
+            Floor.Enqueue(floor);
 
-            LastFloorTile = gameObject;
+            LastFloorTile = floor;
             FirstFloorTile = Floor.Peek();
         }
 

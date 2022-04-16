@@ -1,65 +1,65 @@
-﻿using System.Collections.Generic;
+﻿using Runner.Scripts.Controller;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Runner.Scripts.Manager
 {
     public class EnemyManager : MonoBehaviour
     {
-        [SerializeField]
-        private Transform[] _enemies;
+        [field: SerializeField]
+        private EnemyController[] Enemies { get; set; }
 
-        private Queue<Transform> EnemiesQueue { get; set; } = new Queue<Transform>();
+        private Queue<EnemyController> EnemiesQueue { get; set; } = new Queue<EnemyController>();
         private int NumberTilesToSpawnEnemy { get; set; } = 1;
         private System.Random RandomNumberGenerator { get; set; } = new System.Random();
         private int NumberTilesBetweenEnemies { get; set; } = 5;
 
-        public void SetupEnemies(float tilePositionX, float tilePositionY)
+        public void SetupEnemies(Transform floor, float floorVerticalSize)
         {
             DeleteEnemiesOffScreen();
-            SpawnNewEnemy(tilePositionX, tilePositionY);
+            SpawnNewEnemy(floor, floorVerticalSize);
         }
 
         private void DeleteEnemiesOffScreen()
         {
-            if (EnemiesQueue.Count > 0 &&
-                EnemiesQueue.Peek().position.x < (-GameManager.halfHorizontalScreenSize - (EnemiesQueue.Peek().GetComponent<BoxCollider2D>().size.x * 1.5f)))
-            {
-                Transform enemyDead = EnemiesQueue.Dequeue();
+            if (EnemiesQueue.Count <= 0)
+                return;
 
-                if (enemyDead != null)
-                {
-                    Destroy(enemyDead.gameObject);
-                }
+            var enemy = EnemiesQueue.Peek();
+
+            if (enemy.transform.position.x >= -(GameManager.halfHorizontalScreenSize + enemy.Size.x))
+                return;
+
+            var enemyDead = EnemiesQueue.Dequeue();
+
+            if (enemyDead != null)
+            {
+                Destroy(enemyDead.gameObject);
             }
         }
 
-        private void SpawnNewEnemy(float tilePositionX, float tilePositionY)
+        private void SpawnNewEnemy(Transform floor, float floorVerticalSize)
         {
-            if (NumberTilesToSpawnEnemy >= NumberTilesBetweenEnemies)
-            {
-                NumberTilesToSpawnEnemy = 1;
-                int nextEnemyIndex = RandomNumberGenerator.Next(2);
-                Transform enemySpawn = _enemies[nextEnemyIndex];
-                Vector2 enemySize = enemySpawn.GetComponent<BoxCollider2D>().size;
-                Transform enemy = Instantiate(
-                    enemySpawn,
-                    new Vector2(
-                        tilePositionX,
-                        tilePositionY + (enemySize.y * 3f)
-                    ),
-                    Quaternion.identity
-                );
-                EnemiesQueue.Enqueue(enemy);
-            }
-            else
+            if (NumberTilesToSpawnEnemy < NumberTilesBetweenEnemies)
             {
                 NumberTilesToSpawnEnemy++;
+                return;
             }
+
+            NumberTilesToSpawnEnemy = 1;
+            var nextEnemyIndex = RandomNumberGenerator.Next(Enemies.Length);
+            var enemySpawned = Enemies[nextEnemyIndex];
+            var enemy = Instantiate(enemySpawned, floor);
+            enemy.transform.localPosition = new Vector3(
+                -enemy.PositionOffset.x,
+                (floorVerticalSize * 0.5f / floor.localScale.y) + enemy.Size.y * 0.5f - enemy.PositionOffset.y,
+                0);
+            EnemiesQueue.Enqueue(enemy);
         }
 
         public void DestroyAllEnemies()
         {
-            foreach (Transform enemy in EnemiesQueue)
+            foreach (var enemy in EnemiesQueue)
             {
                 Destroy(enemy.gameObject);
             }
