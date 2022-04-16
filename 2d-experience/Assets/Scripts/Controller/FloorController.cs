@@ -6,11 +6,11 @@ namespace Runner.Scripts.Controller
     public class FloorController : MonoBehaviour
     {
         public Vector2 Size => new Vector2(BoxCollider.size.x * transform.localScale.x, BoxCollider.size.y * transform.localScale.y);
-        public static float speed;
 
-        private static readonly float initialSpeed = 0.015f;
-        private static readonly float maxSpeed = 0.06f;
-        private static readonly float speedStep = 0.0025f;
+        public static float speed = initialSpeed;
+        private static readonly float initialSpeed = 6f;
+        private static readonly float maxSpeed = 15f;
+        private static readonly float speedStep = 0.6f;
 
         [field: SerializeField]
         private BoxCollider2D BoxCollider { get; set; }
@@ -21,7 +21,7 @@ namespace Runner.Scripts.Controller
             if (GameManager.IsGamePaused())
                 return;
 
-            transform.position += speed * Vector3.left;
+            transform.position += speed * Time.deltaTime * Vector3.left;
         }
 
         public static void IncreaseFloorSpeed()
