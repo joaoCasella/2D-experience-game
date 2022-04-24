@@ -18,14 +18,19 @@ This is my first 2D project (I have also developed a 3D game, available at https
 # Possible Improvements
 My goal is to learn about the engine and its workflow. So, I consider the game in a state were there is not much to be done that can teach me a lot (you can tell me why I'm wrong by creating an issue). In spite of those facts, here are some points that could be improved in the game:
 
-- [ ] Adapt game (mainly the controls) to work on mobile
+- [X] Adapt game (mainly the controls) to work on mobile
+- [X] Tune some parameters, like the ones related to the jump
+- [X] Fix some visual glitches on the moving floor
 - [ ] Add an enemy that flies (similar to the aerodactyl in the chrome game, used as inspiration), and adapt the player logic accordingly to make it work
-- [ ] Tune some parameters, like the ones related to the jump
-- [ ] Play a sound effect when the user dies
-- [ ] Fix some visual glitches on the moving floor
+- [ ] Play a sound effect when the player dies
 - [ ] Persist the high score in the hard drive (currently, the game only "remembers" the high score from the current session)
 - [ ] Add some sort of bonus to the player (like coins that add a bonus to the player pontuation but are difficult to be caught)
+- [ ] Add configuration screen to adjust sound and music volumes
+- [ ] Add localizations to the game
+- [ ] Add countdown after game pause (so that the player can have a moment after the pause to concentrate before the game restarts)
+- [ ] Change UI
+    - [ ] In game menu positions (difficult to press pause button and to see current score)
+    - [ ] Change button appearance
 - [ ] Minor optimizations:
-    - [ ] Replace tag comparation with the `CompareTag` method
+    - [X] Replace tag comparation with the `CompareTag` method
     - [ ] Remove unused assets from the package imported
-    - [ ] Remove object creation from runtime (remnant of old logic)
