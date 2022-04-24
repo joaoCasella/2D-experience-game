@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace Runner.Scripts.Manager
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : Inputter.Inputter
     {
         public const string gameName = "Runner";
         public const float nativeGameHeight = 1080f;
@@ -68,6 +68,26 @@ namespace Runner.Scripts.Manager
             halfHorizontalScreenSize = halfVerticalScreenSize * nativeAspectRatio;
 
             mainCamera.orthographicSize *= cameraScaleFactor;
+        }
+
+        private void Update()
+        {
+#if UNITY_STANDALONE || UNITY_WEBGL
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                InputDetected(Inputter.InputAction.Action);
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                InputDetected(Inputter.InputAction.Pause);
+            }
+#elif UNITY_ANDROID
+            // Detect system back presses
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                InputDetected(Inputter.InputAction.Pause);
+            }
+#endif
         }
 
         public void LoadScene(string sceneName, Action onComplete)

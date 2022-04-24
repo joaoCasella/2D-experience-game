@@ -53,12 +53,13 @@ namespace Runner.Scripts.Controller
             Animator.SetFloat("runSpeed", RunSpeed);
 
             GameManager.Instance.OnGamePaused += OnGamePaused;
+            InputManager.Instance.OnInputAction += OnInputAction;
         }
 
         // Update is called once per frame
-        void Update()
+        private void OnInputAction()
         {
-            if (!Input.GetKeyDown(KeyCode.Space) || IsBlocked)
+            if (IsBlocked)
                 return;
 
             StartJump();
@@ -208,6 +209,9 @@ namespace Runner.Scripts.Controller
         {
             if (GameManager.Instance != null)
                 GameManager.Instance.OnGamePaused -= OnGamePaused;
+
+            if (InputManager.Instance != null)
+                InputManager.Instance.OnInputAction -= OnInputAction;
 
             if (JumpCoroutine != null)
                 StopCoroutine(JumpCoroutine);

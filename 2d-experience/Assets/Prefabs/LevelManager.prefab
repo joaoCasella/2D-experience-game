@@ -390,7 +390,4 @@ MonoBehaviour:
     type: 3}
   _playerController: {fileID: 114001781792008192, guid: 7ea6d8a423f2d804e93e630ae741c147,
     type: 3}
-  _pauseMenu: {fileID: 0}
-  _playerHud: {fileID: 0}
-  _pontuationText: {fileID: 0}
   _floorSpeedIncreaseInterval: 20

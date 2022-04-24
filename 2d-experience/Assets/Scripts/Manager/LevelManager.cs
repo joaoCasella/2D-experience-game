@@ -1,4 +1,5 @@
 ﻿using Runner.Scripts.Controller;
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -22,16 +23,6 @@ namespace Runner.Scripts.Manager
         [SerializeField]
         private PlayerManager _playerController = null;
 
-        [Header("Canvases")]
-        [SerializeField]
-        private GameObject _pauseMenu = null;
-        [SerializeField]
-        private GameObject _playerHud = null;
-
-        [Header("Texts")]
-        [SerializeField]
-        private TextMeshProUGUI _pontuationText = null;
-
         [Header("Game parameters")]
         [SerializeField]
         private int _floorSpeedIncreaseInterval = 25;
@@ -40,9 +31,12 @@ namespace Runner.Scripts.Manager
         private PlayerManager Player { get; set; }
         private EnemyManager Enemies { get; set; }
         private int PreviousFloorIncreaseStep { get; set; } = 0;
+        private Action<int> OnPontuationChanged { get; set; }
 
-        public void Setup()
+        public void Setup(Action<int> onPontuationChanged)
         {
+            OnPontuationChanged = onPontuationChanged;
+
             var gameMaskBoundsSize = _gameMask.sprite.bounds.size;
 
             _gameMask.transform.localScale = new Vector3(
@@ -71,39 +65,13 @@ namespace Runner.Scripts.Manager
 
             GameManager.Instance.Pontuation = 0;
             GameManager.isGameOn = true;
-
-            ToggleMainMenuVisibility(false);
-        }
-
-        // TODO: decide if this will stay here
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                OnPausePress();
-            }
-            else if (!GameManager.isGameOn)
-            {
-                ToggleMainMenuVisibility(true);
-            }
-        }
-
-        public void ToggleMainMenuVisibility(bool visibility)
-        {
-            _playerHud.SetActive(!visibility);
-        }
-
-        public void OnPausePress()
-        {
-            GameManager.Instance.OnPausePress();
-            _pauseMenu.SetActive(GameManager.gamePaused);
         }
 
         private void OnFloorMovement(Transform floor, float floorVerticalSize)
         {
             Enemies.SetupEnemies(floor, floorVerticalSize);
             GameManager.Instance.Pontuation++;
-            _pontuationText.text = $"Points: : {GameManager.Instance.Pontuation}";
+            OnPontuationChanged?.Invoke(GameManager.Instance.Pontuation);
 
             if (GameManager.Instance.Pontuation == PreviousFloorIncreaseStep + _floorSpeedIncreaseInterval)
             {
