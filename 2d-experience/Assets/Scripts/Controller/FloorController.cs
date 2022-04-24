@@ -9,7 +9,7 @@ namespace Runner.Scripts.Controller
 
         public static float speed = initialSpeed;
         private static readonly float initialSpeed = 6f;
-        private static readonly float maxSpeed = 15f;
+        private static readonly float maxSpeed = 16.2f;
         private static readonly float speedStep = 0.6f;
 
         [field: SerializeField]
