@@ -141,7 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 175c2787c42620e4193297cc4acbdfb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundSprite: {fileID: 6263684933488760787}
+  <BackgroundSprite>k__BackingField: {fileID: 6263684933488760787}
+  <AudioSource>k__BackingField: {fileID: 5879532980602543780}
 --- !u!1 &2398116404225249179
 GameObject:
   m_ObjectHideFlags: 0

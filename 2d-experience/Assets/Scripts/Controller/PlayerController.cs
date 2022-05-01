@@ -54,6 +54,7 @@ namespace Runner.Scripts.Controller
 
             GameManager.Instance.OnGamePaused += OnGamePaused;
             InputManager.Instance.OnInputAction += OnInputAction;
+            SoundManager.Instance.RegisterSoundFXSource(AudioSource);
         }
 
         // Update is called once per frame
@@ -215,6 +216,9 @@ namespace Runner.Scripts.Controller
 
             if (JumpCoroutine != null)
                 StopCoroutine(JumpCoroutine);
+
+            if (AudioSource != null)
+                SoundManager.Instance.DeregisterSoundFXSource(AudioSource);
         }
     }
 }

@@ -25,9 +25,11 @@ My goal is to learn about the engine and its workflow. So, I consider the game i
 - [ ] Play a sound effect when the player dies
 - [X] Persist the high score in the hard drive (currently, the game only "remembers" the high score from the current session)
 - [ ] Add some sort of bonus to the player (like coins that add a bonus to the player pontuation but are difficult to be caught)
-- [ ] Add configuration screen to adjust sound and music volumes
+- [X] Add configuration screen to adjust sound and music volumes
+    - [ ] Make this screen accessible through the main menu
 - [ ] Add localizations to the game
 - [ ] Add countdown after game pause (so that the player can have a moment after the pause to concentrate before the game restarts)
+- [ ] Make it possible to navigate inside the menus using the back button (escape or android back)
 - [ ] Change UI
     - [ ] In game menu positions (difficult to press pause button and to see current score)
     - [ ] Change button appearance

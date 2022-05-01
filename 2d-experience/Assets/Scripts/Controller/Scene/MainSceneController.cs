@@ -26,7 +26,13 @@ namespace Runner.Scripts.Controller.Scene
             Camera.main.orthographicSize *= GameManager.cameraScaleFactor;
 
             GameUi.Setup(GameManager.Instance.Pontuation);
-            PauseMenu.Setup(OnPausePress, GameManager.Instance.OnGameQuit);
+            PauseMenu.Setup(
+                SoundManager.Instance.MusicVolume,
+                SoundManager.Instance.SoundFXVolume,
+                OnPausePress,
+                GameManager.Instance.OnGameQuit,
+                OnSoundConfigurationsChanged,
+                SaveConfigurations);
             ToggleUiVisibility(UiVisibility.InGameUi);
 
             LevelManager.Setup(GameUi.UpdatePontuationText);
@@ -44,6 +50,16 @@ namespace Runner.Scripts.Controller.Scene
         {
             PauseMenu.gameObject.SetActive(uiVisibility == UiVisibility.PauseMenu);
             GameUi.gameObject.SetActive(uiVisibility == UiVisibility.InGameUi);
+        }
+
+        private void SaveConfigurations(Configurations configurations)
+        {
+            SoundManager.Instance.SaveSoundConfigurations(configurations.MusicVolume, configurations.SoundFXVolume);
+        }
+
+        private void OnSoundConfigurationsChanged(Configurations configurations)
+        {
+            SoundManager.Instance.OnSoundConfigurationsChanged(configurations.MusicVolume, configurations.SoundFXVolume);
         }
 
         private void OnDestroy()
