@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 4306561302981248570}
   - component: {fileID: 4306561302981248569}
   m_Layer: 5
-  m_Name: ResumeText
+  m_Name: StartGameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Resume
+  m_text: Start
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0289ee2c6b69ed64ebbcc11d6a544628, type: 2}
   m_sharedMaterial: {fileID: 7269367126527334415, guid: 0289ee2c6b69ed64ebbcc11d6a544628,
@@ -424,7 +424,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.6
+  m_fontSize: 75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
