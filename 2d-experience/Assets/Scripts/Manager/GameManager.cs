@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Runner.Scripts.Service;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,7 +24,17 @@ namespace Runner.Scripts.Manager
         private static float previousTimescale = 1f;
 
         public int Pontuation { get; set; } = 0;
-        public int HighestScore { get; set; } = 0;
+        public int HighestScore
+        {
+            get
+            {
+                return PlayerService.GetSavedHighestScore();
+            }
+            private set
+            {
+                PlayerService.SaveHighestScore(value);
+            }
+        }
 
         public delegate void GamePaused(bool paused);
         public event GamePaused OnGamePaused;
@@ -46,7 +57,7 @@ namespace Runner.Scripts.Manager
             }
 
             // Adjust the camera ortographic size to prioritize the screen length
-            var aspectRatio = (float) Screen.width / Screen.height;
+            var aspectRatio = (float)Screen.width / Screen.height;
             var nativeAspectRatio = nativeGameWidth / nativeGameHeight;
 
             // If current aspect ratio is lesser than the native one,
@@ -133,6 +144,14 @@ namespace Runner.Scripts.Manager
         public void OnGameQuit()
         {
             Application.Quit();
+        }
+
+        public void UpdateHighestScore()
+        {
+            if (Instance.Pontuation <= Instance.HighestScore)
+                return;
+
+            Instance.HighestScore = Instance.Pontuation;
         }
     }
 }

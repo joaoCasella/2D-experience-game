@@ -23,7 +23,7 @@ My goal is to learn about the engine and its workflow. So, I consider the game i
 - [X] Fix some visual glitches on the moving floor
 - [ ] Add an enemy that flies (similar to the aerodactyl in the chrome game, used as inspiration), and adapt the player logic accordingly to make it work
 - [ ] Play a sound effect when the player dies
-- [ ] Persist the high score in the hard drive (currently, the game only "remembers" the high score from the current session)
+- [X] Persist the high score in the hard drive (currently, the game only "remembers" the high score from the current session)
 - [ ] Add some sort of bonus to the player (like coins that add a bonus to the player pontuation but are difficult to be caught)
 - [ ] Add configuration screen to adjust sound and music volumes
 - [ ] Add localizations to the game

@@ -1,6 +1,5 @@
 ﻿using Runner.Scripts.Controller;
 using System;
-using TMPro;
 using UnityEngine;
 
 namespace Runner.Scripts.Manager
@@ -84,10 +83,7 @@ namespace Runner.Scripts.Manager
         {
             GameManager.isGameOn = false;
 
-            if (GameManager.Instance.Pontuation > GameManager.Instance.HighestScore)
-            {
-                GameManager.Instance.HighestScore = GameManager.Instance.Pontuation;
-            }
+            GameManager.Instance.UpdateHighestScore();
 
             Player.KillPlayer(() =>
             {
