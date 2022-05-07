@@ -45,7 +45,7 @@ namespace Runner.Scripts.View
 
         public void UpdatePontuationText(int pontuation)
         {
-            PontuationText.text = $"<mspace=1em>Points: {pontuation}</mspace>";
+            PontuationText.text = $"<mspace=0.8em>Points: {pontuation}</mspace>";
         }
 
         private void OnDestroy()

@@ -29,7 +29,7 @@ My goal is to learn about the engine and its workflow. So, I consider the game i
 - [X] Make it possible to navigate inside the menus using the back button (escape or android back)
 - [ ] Change UI
     - [X] Make UI be fully inside the game screen space (currently, it fills the whole screen)
-    - [ ] In game menu positions (difficult to press pause button and to see current score)
+    - [X] In game menu positions (difficult to press pause button and to see current score)
     - [ ] Change button appearance
 - [ ] Minor optimizations:
     - [X] Replace tag comparation with the `CompareTag` method
