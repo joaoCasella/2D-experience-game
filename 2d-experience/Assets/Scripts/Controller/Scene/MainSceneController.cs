@@ -29,7 +29,7 @@ namespace Runner.Scripts.Controller.Scene
             // TODO: make an automatic setup
             Camera.main.orthographicSize *= GameManager.cameraScaleFactor;
 
-            GameUi.Setup(GameManager.Instance.Pontuation);
+            GameUi.Setup(GameManager.nativeGameWidth / GameManager.nativeGameHeight, GameManager.Instance.Pontuation);
             PauseMenu.Setup(OnPausePress);
             ToggleUiVisibility(UiVisibility.InGameUi);
 

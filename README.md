@@ -28,6 +28,7 @@ My goal is to learn about the engine and its workflow. So, I consider the game i
 - [ ] Add countdown after game pause (so that the player can have a moment after the pause to concentrate before the game restarts)
 - [X] Make it possible to navigate inside the menus using the back button (escape or android back)
 - [ ] Change UI
+    - [X] Make UI be fully inside the game screen space (currently, it fills the whole screen)
     - [ ] In game menu positions (difficult to press pause button and to see current score)
     - [ ] Change button appearance
 - [ ] Minor optimizations:

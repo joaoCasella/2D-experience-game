@@ -8,6 +8,9 @@ namespace Runner.Scripts.View
     public class InGameUiView : Inputter.Inputter
     {
         [field: SerializeField]
+        private AspectRatioFitter AspectRatioFitter { get; set; }
+
+        [field: SerializeField]
         private EventTrigger BackgroundButton { get; set; }
 
         [field: SerializeField]
@@ -16,8 +19,10 @@ namespace Runner.Scripts.View
         [field: SerializeField]
         private TextMeshProUGUI PontuationText { get; set; }
 
-        public void Setup(int initialPontuation)
+        public void Setup(float aspectRatio, int initialPontuation)
         {
+            AspectRatioFitter.aspectRatio = aspectRatio;
+
             UpdatePontuationText(initialPontuation);
             PauseButton.onClick.AddListener(OnClickPauseButton);
             var entry = new EventTrigger.Entry
