@@ -1764,6 +1764,7 @@ GameObject:
   - component: {fileID: 5894544759637277436}
   - component: {fileID: 5894544759637277437}
   - component: {fileID: 5894544759637277426}
+  - component: {fileID: 21912716936782722}
   - component: {fileID: 9181746666744291737}
   m_Layer: 5
   m_Name: PauseMenu
@@ -1855,6 +1856,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &21912716936782722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5894544759637277427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153e6d5bdd1e11249b1c79fcd7ea83a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PauseMenu>k__BackingField: {fileID: 9181746666744291737}
 --- !u!114 &9181746666744291737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2277,7 +2291,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 84.45
+  m_fontSize: 63.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2412,7 +2426,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 63.7
+  m_fontSize: 47.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2583,7 +2597,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 63.35
+  m_fontSize: 47.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

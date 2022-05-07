@@ -83,22 +83,16 @@ namespace Runner.Scripts.Manager
 
         private void Update()
         {
-#if UNITY_STANDALONE || UNITY_WEBGL
+            // On Android, will only make sense if there is a connected keyboard
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 InputDetected(Inputter.InputAction.Action);
             }
+            // On Android, detects system back presses
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
-                InputDetected(Inputter.InputAction.Pause);
+                InputDetected(Inputter.InputAction.BackOrPause);
             }
-#elif UNITY_ANDROID
-            // Detect system back presses
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                InputDetected(Inputter.InputAction.Pause);
-            }
-#endif
         }
 
         public void LoadScene(string sceneName, Action onComplete)

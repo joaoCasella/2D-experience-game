@@ -1,10 +1,12 @@
-﻿using Runner.Scripts.Manager;
+﻿using Runner.Scripts.Controller.UI;
+using Runner.Scripts.Inputter;
+using Runner.Scripts.Manager;
 using Runner.Scripts.View;
 using UnityEngine;
 
 namespace Runner.Scripts.Controller.Scene
 {
-    public class MainSceneController : MonoBehaviour
+    public class MainSceneController : MonoBehaviour, IInputListener
     {
         private enum UiVisibility
         {
@@ -18,7 +20,9 @@ namespace Runner.Scripts.Controller.Scene
         [field: SerializeField]
         private InGameUiView GameUi { get; set; }
         [field: SerializeField]
-        private PauseMenuView PauseMenu { get; set; }
+        private PauseMenuController PauseMenu { get; set; }
+
+        public InputListenerPriority Priority => InputListenerPriority.Gameplay;
 
         private void Start()
         {
@@ -26,18 +30,12 @@ namespace Runner.Scripts.Controller.Scene
             Camera.main.orthographicSize *= GameManager.cameraScaleFactor;
 
             GameUi.Setup(GameManager.Instance.Pontuation);
-            PauseMenu.Setup(
-                SoundManager.Instance.MusicVolume,
-                SoundManager.Instance.SoundFXVolume,
-                OnPausePress,
-                GameManager.Instance.OnGameQuit,
-                OnSoundConfigurationsChanged,
-                SaveConfigurations);
+            PauseMenu.Setup(OnPausePress);
             ToggleUiVisibility(UiVisibility.InGameUi);
 
             LevelManager.Setup(GameUi.UpdatePontuationText);
 
-            InputManager.Instance.OnInputPause += OnPausePress;
+            InputManager.Instance.RegisterInputListener(this);
         }
 
         public void OnPausePress()
@@ -52,19 +50,18 @@ namespace Runner.Scripts.Controller.Scene
             GameUi.gameObject.SetActive(uiVisibility == UiVisibility.InGameUi);
         }
 
-        private void SaveConfigurations(Configurations configurations)
+        public bool ConsumeInput(InputAction inputAction)
         {
-            SoundManager.Instance.SaveSoundConfigurations(configurations.MusicVolume, configurations.SoundFXVolume);
-        }
+            if (inputAction != InputAction.BackOrPause)
+                return false;
 
-        private void OnSoundConfigurationsChanged(Configurations configurations)
-        {
-            SoundManager.Instance.OnSoundConfigurationsChanged(configurations.MusicVolume, configurations.SoundFXVolume);
+            OnPausePress();
+            return true;
         }
 
         private void OnDestroy()
         {
-            InputManager.Instance.OnInputPause -= OnPausePress;
+            InputManager.Instance.DeregisterInputListener(this);
         }
     }
 }

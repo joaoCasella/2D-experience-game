@@ -1,11 +1,12 @@
-﻿using Runner.Scripts.Manager;
+﻿using Runner.Scripts.Inputter;
+using Runner.Scripts.Manager;
 using System;
 using System.Collections;
 using UnityEngine;
 
 namespace Runner.Scripts.Controller
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IInputListener
     {
         private const float JumpSoundVolume = 0.5f;
         public Vector2 Size => new Vector2(
@@ -47,23 +48,28 @@ namespace Runner.Scripts.Controller
 
         private Coroutine JumpCoroutine { get; set; }
 
+        public InputListenerPriority Priority => InputListenerPriority.Gameplay;
+
         // Use this for initialization
         void Start()
         {
             Animator.SetFloat("runSpeed", RunSpeed);
 
             GameManager.Instance.OnGamePaused += OnGamePaused;
-            InputManager.Instance.OnInputAction += OnInputAction;
+            InputManager.Instance.RegisterInputListener(this);
             SoundManager.Instance.RegisterSoundFXSource(AudioSource);
         }
 
-        // Update is called once per frame
-        private void OnInputAction()
+        public bool ConsumeInput(InputAction inputAction)
         {
+            if (inputAction != InputAction.Action)
+                return false;
+
             if (IsBlocked)
-                return;
+                return false;
 
             StartJump();
+            return true;
         }
 
         private void StartJump()
@@ -212,7 +218,7 @@ namespace Runner.Scripts.Controller
                 GameManager.Instance.OnGamePaused -= OnGamePaused;
 
             if (InputManager.Instance != null)
-                InputManager.Instance.OnInputAction -= OnInputAction;
+                InputManager.Instance.DeregisterInputListener(this);
 
             if (JumpCoroutine != null)
                 StopCoroutine(JumpCoroutine);

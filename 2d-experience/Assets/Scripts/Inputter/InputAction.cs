@@ -4,6 +4,6 @@ namespace Runner.Scripts.Inputter
     {
         Unknown = 0,
         Action = 1,
-        Pause = 2,
+        BackOrPause = 2,
     }
 }

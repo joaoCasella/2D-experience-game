@@ -6,12 +6,6 @@ namespace Runner.Scripts.View
 {
     public class PauseMenuView : MonoBehaviour
     {
-        private enum PauseMenuState
-        {
-            Default,
-            Configurations
-        }
-
         [field: SerializeField]
         private GameObject DefaultMenuContainer { get; set; }
 
@@ -41,11 +35,12 @@ namespace Runner.Scripts.View
             float startSoundFXVolume,
             Action onClickContinue,
             Action onClickQuit,
-            Action<Configurations> onSoundConfigurationsChanged,
-            Action<Configurations> onClickSaveConfigs)
+            Action onClickConfigurations,
+            Action onClickBack,
+            Action<Configurations> onSoundConfigurationsChanged)
         {
             ContinueButton.onClick.AddListener(() => onClickContinue());
-            ConfigurationsButton.onClick.AddListener(() => SetMenuState(PauseMenuState.Configurations));
+            ConfigurationsButton.onClick.AddListener(() => onClickConfigurations());
             QuitButton.onClick.AddListener(() => onClickQuit());
 
             MusicSlider.value = startMusicVolume;
@@ -54,24 +49,18 @@ namespace Runner.Scripts.View
             MusicSlider.onValueChanged.AddListener((value) => onSoundConfigurationsChanged(GetConfigurations()));
             SoundFXSlider.onValueChanged.AddListener((value) => onSoundConfigurationsChanged(GetConfigurations()));
 
-            BackButton.onClick.AddListener(() =>
-            {
-                onClickSaveConfigs(GetConfigurations());
-                SetMenuState(PauseMenuState.Default);
-            });
-
-            SetMenuState(PauseMenuState.Default);
+            BackButton.onClick.AddListener(() => onClickBack());
         }
 
-        private Configurations GetConfigurations()
+        public Configurations GetConfigurations()
         {
             return new Configurations() { MusicVolume = MusicSlider.normalizedValue, SoundFXVolume = SoundFXSlider.normalizedValue };
         }
 
-        private void SetMenuState(PauseMenuState menuState)
+        public void ShowScreen(bool defaultMenu)
         {
-            DefaultMenuContainer.SetActive(menuState == PauseMenuState.Default);
-            ConfigurationsMenuContainer.SetActive(menuState == PauseMenuState.Configurations);
+            DefaultMenuContainer.SetActive(defaultMenu);
+            ConfigurationsMenuContainer.SetActive(!defaultMenu);
         }
     }
 }

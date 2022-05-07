@@ -30,7 +30,7 @@ namespace Runner.Scripts.View
 
         private void OnClickPauseButton()
         {
-            InputDetected(Inputter.InputAction.Pause);
+            InputDetected(Inputter.InputAction.BackOrPause);
         }
 
         private void OnClickActionButton(BaseEventData baseEventData)

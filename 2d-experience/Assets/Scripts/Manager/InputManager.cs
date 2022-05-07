@@ -1,14 +1,13 @@
 ﻿using Runner.Scripts.Inputter;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Runner.Scripts.Manager
 {
     public class InputManager : MonoBehaviour
     {
-        // Delegates
-        public delegate void OnInputDetected();
-        public event OnInputDetected OnInputAction;
-        public event OnInputDetected OnInputPause;
+        private List<IInputListener> InputListeners { get; } = new List<IInputListener>();
 
         private static InputManager _instance;
         public static InputManager Instance => _instance;
@@ -28,27 +27,34 @@ namespace Runner.Scripts.Manager
 
         public void RegisterInputter(Inputter.Inputter inputter)
         {
-            inputter.OnInput += OnInput;
-        }
-
-        private void OnInput(InputAction inputAction)
-        {
-            switch (inputAction)
-            {
-                case InputAction.Action:
-                    OnInputAction();
-                    break;
-                case InputAction.Pause:
-                    OnInputPause();
-                    break;
-                default:
-                    break;
-            }
+            inputter.OnInput += ConsumeOnInput;
         }
 
         public void DeregisterInputter(Inputter.Inputter inputter)
         {
-            inputter.OnInput -= OnInput;
+            inputter.OnInput -= ConsumeOnInput;
+        }
+
+        public void ConsumeOnInput(InputAction inputAction)
+        {
+            for (int listenerIndex = 0; listenerIndex < InputListeners.Count && !InputListeners[listenerIndex].ConsumeInput(inputAction); listenerIndex++);
+        }
+
+        public void RegisterInputListener(IInputListener inputListener)
+        {
+            if (InputListeners.Count == 0)
+            {
+                InputListeners.Add(inputListener);
+                return;
+            }
+            var countItemsMoreImportant = InputListeners.TakeWhile(il => il.Priority > inputListener.Priority).Count();
+            InputListeners.Insert(countItemsMoreImportant, inputListener);
+        }
+
+        public void DeregisterInputListener(IInputListener inputListener)
+        {
+            if (InputListeners.Contains(inputListener))
+                InputListeners.Remove(inputListener);
         }
     }
 }
