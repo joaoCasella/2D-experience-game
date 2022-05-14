@@ -1,5 +1,4 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -16,14 +15,10 @@ namespace Runner.Scripts.View
         [field: SerializeField]
         private Button PauseButton { get; set; }
 
-        [field: SerializeField]
-        private TextMeshProUGUI PontuationText { get; set; }
-
-        public void Setup(float aspectRatio, int initialPontuation)
+        public void Setup(float aspectRatio)
         {
             AspectRatioFitter.aspectRatio = aspectRatio;
 
-            UpdatePontuationText(initialPontuation);
             PauseButton.onClick.AddListener(OnClickPauseButton);
             var entry = new EventTrigger.Entry
             {
@@ -41,11 +36,6 @@ namespace Runner.Scripts.View
         private void OnClickActionButton(BaseEventData baseEventData)
         {
             InputDetected(Inputter.InputAction.Action);
-        }
-
-        public void UpdatePontuationText(int pontuation)
-        {
-            PontuationText.text = $"<mspace=0.8em>Points: {pontuation}</mspace>";
         }
 
         private void OnDestroy()

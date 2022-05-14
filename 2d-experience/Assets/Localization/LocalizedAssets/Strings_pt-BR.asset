@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Strings_pt-BR
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: pt-BR
+  m_SharedData: {fileID: 11400000, guid: 9e7ea4953b8eb884eb5942ea590905a7, type: 2}
+  m_Metadata:
+    m_Items:
+    - id: 0
+  m_TableData:
+  - m_Id: 39257374720
+    m_Localized: Corredor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 311580950528
+    m_Localized: "Melhor pontua\xE7\xE3o: {global.highest-score}"
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 11012705878016
+    m_Localized: "Come\xE7ar"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11090652823552
+    m_Localized: Sair
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24402950094848
+    m_Localized: Carregando
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24659675054080
+    m_Localized: "<mspace=0.7em>Pontua\xE7\xE3o: {global.current-score}</mspace>"
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 28698684948480
+    m_Localized: "Configura\xE7\xF5es"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28786094243840
+    m_Localized: "Volume da m\xFAsica: "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28924430778368
+    m_Localized: 'Volume dos sons: '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29358960672768
+    m_Localized: Voltar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29548140560384
+    m_Localized: Menu de pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30118188417024
+    m_Localized: Continuar
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 1
+    00000000:
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 0000ac8b4800000000002c876d160000

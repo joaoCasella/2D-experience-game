@@ -1,8 +1,10 @@
 ﻿using Runner.Scripts.Controller.UI;
 using Runner.Scripts.Inputter;
 using Runner.Scripts.Manager;
+using Runner.Scripts.Service;
 using Runner.Scripts.View;
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 namespace Runner.Scripts.Controller.Scene
 {
@@ -29,13 +31,20 @@ namespace Runner.Scripts.Controller.Scene
             // TODO: make an automatic setup
             Camera.main.orthographicSize *= GameManager.cameraScaleFactor;
 
-            GameUi.Setup(GameManager.nativeGameWidth / GameManager.nativeGameHeight, GameManager.Instance.Pontuation);
+            LevelManager.Setup(OnPontuationChanged);
+            OnPontuationChanged(GameManager.Instance.Pontuation);
+
+            GameUi.Setup(GameManager.nativeGameWidth / GameManager.nativeGameHeight);
             PauseMenu.Setup(OnPausePress);
             ToggleUiVisibility(UiVisibility.InGameUi);
 
-            LevelManager.Setup(GameUi.UpdatePontuationText);
 
             InputManager.Instance.RegisterInputListener(this);
+        }
+
+        private void OnPontuationChanged(int pontuation)
+        {
+            LocalizationService.ChangeLocalizationValue<IntVariable, int>("current-score", pontuation);
         }
 
         public void OnPausePress()

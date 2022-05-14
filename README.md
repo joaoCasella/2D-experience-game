@@ -15,6 +15,9 @@ The machine used to develop this game was a Acer Nitro 5, with a Intel I7 7700H 
 # Feedback
 This is my first 2D project (I have also developed a 3D game, available at https://github.com/joaoCasella/FPS), so any feedbacks and suggestions are apreciated. All I ask is respect :)
 
+# External assets
+The text font used is available at this [domain](https://fonts.google.com/specimen/Permanent+Marker) and is licensed under the Apache License, Version 2.0. I couldn't find the author but the corresponding license file can be found in the project
+
 # Possible Improvements
 My goal is to learn about the engine and its workflow. So, I consider the game in a state were there is not much to be done that can teach me a lot (you can tell me why I'm wrong by creating an issue). In spite of those facts, here are some points that could be improved in the game:
 
@@ -24,7 +27,7 @@ My goal is to learn about the engine and its workflow. So, I consider the game i
 - [X] Persist the high score in the hard drive (currently, the game only "remembers" the high score from the current session)
 - [X] Add configuration screen to adjust sound and music volumes
     - [ ] Make this screen accessible through the main menu
-- [ ] Add localizations to the game
+- [X] Add localizations to the game
 - [ ] Add countdown after game pause (so that the player can have a moment after the pause to concentrate before the game restarts)
 - [X] Make it possible to navigate inside the menus using the back button (escape or android back)
 - [ ] Change UI

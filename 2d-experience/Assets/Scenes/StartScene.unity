@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38d34190c5535a5459dc001e234da956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startupMenu: {fileID: 4306561303405361025}
+  <StartupMenu>k__BackingField: {fileID: 4306561303405361025}
 --- !u!4 &443440936
 Transform:
   m_ObjectHideFlags: 0
@@ -444,6 +444,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LoadingController
       objectReference: {fileID: 0}
+    - target: {fileID: 6743350520280473329, guid: 4b797bc950981334a971951b9e5e3501,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b797bc950981334a971951b9e5e3501, type: 3}
 --- !u!1 &1813306777
@@ -718,13 +723,13 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 0a6dce451556ac74caab8e3555f9b21f, type: 3}
 --- !u!114 &4306561303405361025 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 183406315473861377, guid: 0a6dce451556ac74caab8e3555f9b21f,
+  m_CorrespondingSourceObject: {fileID: 6874783170310885920, guid: 0a6dce451556ac74caab8e3555f9b21f,
     type: 3}
   m_PrefabInstance: {fileID: 4306561303405361024}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2767e3b695c1e9c4bbe7efb59a6ed584, type: 3}
+  m_Script: {fileID: 11500000, guid: 6dc5f036e0190ee4fa04e3ef9ea4a2bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

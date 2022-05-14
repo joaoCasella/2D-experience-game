@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Strings Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Strings
+  m_TableCollectionNameGuidString: 9e7ea4953b8eb884eb5942ea590905a7
+  m_Entries:
+  - m_Id: 39257374720
+    m_Key: game_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 311580950528
+    m_Key: high_score
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11012705878016
+    m_Key: start_game_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11090652823552
+    m_Key: quit_game_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24402950094848
+    m_Key: loading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24659675054080
+    m_Key: in_game_pontuation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28698684948480
+    m_Key: configurations
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28786094243840
+    m_Key: music_volume_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28924430778368
+    m_Key: sound_fx_volume_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29358960672768
+    m_Key: back_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29548140560384
+    m_Key: pause_menu_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30118188417024
+    m_Key: resume_button
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1652556839580

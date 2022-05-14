@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9ef5fddb34e6f7346b91317842b4aad0
+guid: ad2770735d662c946bd8308c412578dc
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Super Mario 256
+  - Permanent Marker
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

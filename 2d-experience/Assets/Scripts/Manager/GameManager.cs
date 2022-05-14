@@ -2,13 +2,13 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.SceneManagement;
 
 namespace Runner.Scripts.Manager
 {
     public class GameManager : Inputter.Inputter
     {
-        public const string gameName = "Runner";
         public const float nativeGameHeight = 1080f;
         public const float nativeGameWidth = 1920f;
 
@@ -33,6 +33,7 @@ namespace Runner.Scripts.Manager
             private set
             {
                 PlayerService.SaveHighestScore(value);
+                LocalizationService.ChangeLocalizationValue<IntVariable, int>("highest-score", value);
             }
         }
 

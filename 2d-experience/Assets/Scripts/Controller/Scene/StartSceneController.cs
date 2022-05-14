@@ -1,38 +1,24 @@
-﻿using Runner.Scripts.Manager;
-using Runner.Scripts.View;
+﻿using Runner.Scripts.Controller.UI;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 
 namespace Runner.Scripts.Controller.Scene
 {
     public class StartSceneController : MonoBehaviour
     {
-        [SerializeField]
-        private StartupMenuView _startupMenu = null;
+        [field: SerializeField]
+        private StartupMenuController StartupMenu { get; set; }
 
-        // Use this for initialization
-        void Start()
+        private IEnumerator Start()
         {
-            _startupMenu.Setup(
-                GameManager.gameName,
-                $"High Score: {GameManager.Instance.HighestScore}",
-                OnClickStart,
-                OnClickQuit);
-        }
-
-        public void OnClickStart()
-        {
-            // Load gameplay scene
-            _startupMenu.Hide();
+            StartupMenu.HideContent();
             LoadingController.Instance.Show();
-            GameManager.Instance.LoadScene("MainScene", () =>
-            {
-                LoadingController.Instance.Hide();
-            });
-        }
 
-        public void OnClickQuit()
-        {
-            GameManager.Instance.OnGameQuit();
+            yield return LocalizationSettings.InitializationOperation;
+
+            LoadingController.Instance.Hide();
+            StartupMenu.Setup();
         }
     }
 }
