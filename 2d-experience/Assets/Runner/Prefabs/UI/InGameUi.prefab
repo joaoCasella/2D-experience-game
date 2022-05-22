@@ -306,7 +306,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Points: 00000'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8eb55918adfe99946be783d9ef92ea47, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c19e4448de3af6c47bc87e046c3ea145, type: 2}
   m_sharedMaterial: {fileID: 1027704937837032846, guid: 8eb55918adfe99946be783d9ef92ea47,
     type: 2}
   m_fontSharedMaterials: []

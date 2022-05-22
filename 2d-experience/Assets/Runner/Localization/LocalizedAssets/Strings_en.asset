@@ -41,7 +41,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 24659675054080
-    m_Localized: '<mspace=0.7em>Points: {global.current-score}</mspace>'
+    m_Localized: '<mspace=1em>Points: {global.current-score}</mspace>'
     m_Metadata:
       m_Items:
       - id: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 29548140560384
-    m_Localized: Paused
+    m_Localized: Pause menu
     m_Metadata:
       m_Items: []
   - m_Id: 30118188417024

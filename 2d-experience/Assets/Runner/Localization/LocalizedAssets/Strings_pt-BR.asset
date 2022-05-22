@@ -41,7 +41,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 24659675054080
-    m_Localized: "<mspace=0.7em>Pontua\xE7\xE3o: {global.current-score}</mspace>"
+    m_Localized: "<mspace=1em>Pontua\xE7\xE3o: {global.current-score}</mspace>"
     m_Metadata:
       m_Items:
       - id: 0

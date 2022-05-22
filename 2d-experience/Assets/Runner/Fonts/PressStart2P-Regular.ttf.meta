@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ad2770735d662c946bd8308c412578dc
+guid: cd7ac361154de8440be9debbe2233286
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Permanent Marker
+  - Press Start 2P
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
