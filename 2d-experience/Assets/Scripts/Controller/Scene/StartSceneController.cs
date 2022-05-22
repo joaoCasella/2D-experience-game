@@ -13,9 +13,15 @@ namespace Runner.Scripts.Controller.Scene
         private IEnumerator Start()
         {
             StartupMenu.HideContent();
-            LoadingController.Instance.Show();
+            LoadingController.Instance.ShowProgressBar(0f);
 
-            yield return LocalizationSettings.InitializationOperation;
+            var asyncOp = LocalizationSettings.InitializationOperation;
+
+            while (!asyncOp.IsDone)
+            {
+                LoadingController.Instance.UpdateProgressBar(asyncOp.PercentComplete);
+                yield return null;
+            }
 
             LoadingController.Instance.Hide();
             StartupMenu.Setup();
