@@ -19,8 +19,10 @@ namespace Runner.Scripts.Controller.Scene
         [field: Header("References")]
         [field: SerializeField]
         private LevelManager LevelManager { get; set; }
+
         [field: SerializeField]
         private InGameUiView GameUi { get; set; }
+
         [field: SerializeField]
         private PauseMenuController PauseMenu { get; set; }
 
@@ -29,12 +31,12 @@ namespace Runner.Scripts.Controller.Scene
         private void Start()
         {
             // TODO: make an automatic setup
-            Camera.main.orthographicSize *= GameManager.cameraScaleFactor;
+            Camera.main.orthographicSize *= GameManager.Instance.CameraScaleFactor;
 
             LevelManager.Setup(OnPontuationChanged);
             OnPontuationChanged(GameManager.Instance.Pontuation);
 
-            GameUi.Setup(GameManager.nativeGameWidth / GameManager.nativeGameHeight);
+            GameUi.Setup(GameManager.NativeGameWidth / GameManager.NativeGameHeight);
             PauseMenu.Setup(OnPausePress);
             ToggleUiVisibility(UiVisibility.InGameUi);
 
@@ -49,7 +51,7 @@ namespace Runner.Scripts.Controller.Scene
         public void OnPausePress()
         {
             GameManager.Instance.OnPausePress();
-            ToggleUiVisibility(GameManager.gamePaused ? UiVisibility.PauseMenu : UiVisibility.InGameUi);
+            ToggleUiVisibility(GameManager.Instance.GamePaused ? UiVisibility.PauseMenu : UiVisibility.InGameUi);
         }
 
         private void ToggleUiVisibility(UiVisibility uiVisibility)

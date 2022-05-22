@@ -6,25 +6,29 @@ namespace Runner.Scripts.Manager
 {
     public class LevelManager : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField]
-        private SpriteMask _gameMask = null;
-        [SerializeField]
-        private BackgroundController _backgroundController = null;
-        [SerializeField]
-        private Transform _levelContainer = null;
+        [field: Header("References")]
+        [field: SerializeField]
+        private SpriteMask GameMask { get; set; }
 
-        [Header("Prefabs")]
-        [SerializeField]
-        private FloorManager _floorController = null;
-        [SerializeField]
-        private EnemyManager _enemyController = null;
-        [SerializeField]
-        private PlayerManager _playerController = null;
+        [field: SerializeField]
+        private BackgroundController BackgroundController { get; set; }
 
-        [Header("Game parameters")]
-        [SerializeField]
-        private int _floorSpeedIncreaseInterval = 25;
+        [field: SerializeField]
+        private Transform LevelContainer { get; set; }
+
+        [field: Header("Prefabs")]
+        [field: SerializeField]
+        private FloorManager FloorController { get; set; }
+
+        [field: SerializeField]
+        private EnemyManager EnemyController { get; set; }
+
+        [field: SerializeField]
+        private PlayerManager PlayerController { get; set; }
+
+        [field: Header("Game parameters")]
+        [field: SerializeField]
+        private int FloorSpeedIncreaseInterval { get; set; } = 25;
 
         private FloorManager Floor { get; set; }
         private PlayerManager Player { get; set; }
@@ -36,34 +40,33 @@ namespace Runner.Scripts.Manager
         {
             OnPontuationChanged = onPontuationChanged;
 
-            var gameMaskBoundsSize = _gameMask.sprite.bounds.size;
+            var gameMaskBoundsSize = GameMask.sprite.bounds.size;
 
-            _gameMask.transform.localScale = new Vector3(
-                2f * GameManager.halfHorizontalScreenSize / gameMaskBoundsSize.x,
-                2f * GameManager.halfVerticalScreenSize / gameMaskBoundsSize.y,
-                _gameMask.transform.localScale.z);
+            GameMask.transform.localScale = new Vector3(
+                2f * GameManager.Instance.HalfHorizontalScreenSize / gameMaskBoundsSize.x,
+                2f * GameManager.Instance.HalfVerticalScreenSize / gameMaskBoundsSize.y,
+                GameMask.transform.localScale.z);
 
-            _levelContainer.localScale = new Vector3(
-                2f * GameManager.halfHorizontalScreenSize,
-                2f * GameManager.halfVerticalScreenSize,
-                _levelContainer.localScale.z);
+            LevelContainer.localScale = new Vector3(
+                2f * GameManager.Instance.HalfHorizontalScreenSize,
+                2f * GameManager.Instance.HalfVerticalScreenSize,
+                LevelContainer.localScale.z);
 
-            _backgroundController.SetupBackgroundSize();
+            BackgroundController.SetupBackgroundSize();
 
-            Floor = Instantiate(_floorController, _levelContainer, true);
-            Enemies = Instantiate(_enemyController, _levelContainer, true);
-            Player = Instantiate(_playerController, _levelContainer, true);
+            Floor = Instantiate(FloorController, LevelContainer, true);
+            Enemies = Instantiate(EnemyController, LevelContainer, true);
+            Player = Instantiate(PlayerController, LevelContainer, true);
 
             FloorManager.OnFloorEnd += OnFloorMovement;
-            EnemyController.OnPlayerCollision += OnPlayerDeath;
+            Controller.EnemyController.OnPlayerCollision += OnPlayerDeath;
 
             Enemies.DestroyAllEnemies();
             Floor.Setup();
             Floor.ResetFloorSpeed();
             Player.SetupPlayerOnScene();
 
-            GameManager.Instance.Pontuation = 0;
-            GameManager.isGameOn = true;
+            GameManager.Instance.CurrentGameStarted();
         }
 
         private void OnFloorMovement(Transform floor, float floorVerticalSize)
@@ -72,7 +75,7 @@ namespace Runner.Scripts.Manager
             GameManager.Instance.Pontuation++;
             OnPontuationChanged?.Invoke(GameManager.Instance.Pontuation);
 
-            if (GameManager.Instance.Pontuation == PreviousFloorIncreaseStep + _floorSpeedIncreaseInterval)
+            if (GameManager.Instance.Pontuation == PreviousFloorIncreaseStep + FloorSpeedIncreaseInterval)
             {
                 FloorManager.IncreaseFloorSpeed();
                 PreviousFloorIncreaseStep = GameManager.Instance.Pontuation;
@@ -81,9 +84,7 @@ namespace Runner.Scripts.Manager
 
         private void OnPlayerDeath()
         {
-            GameManager.isGameOn = false;
-
-            GameManager.Instance.UpdateHighestScore();
+            GameManager.Instance.CurrentGameEnded();
 
             Player.KillPlayer(() =>
             {
@@ -98,7 +99,7 @@ namespace Runner.Scripts.Manager
         private void OnDestroy()
         {
             FloorManager.OnFloorEnd -= OnFloorMovement;
-            EnemyController.OnPlayerCollision -= OnPlayerDeath;
+            Controller.EnemyController.OnPlayerCollision -= OnPlayerDeath;
         }
     }
 }

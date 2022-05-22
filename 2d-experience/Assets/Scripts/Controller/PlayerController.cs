@@ -170,7 +170,7 @@ namespace Runner.Scripts.Controller
             StartCoroutine(ParabolicMovement(
                 0.5f,
                 1.8f,
-                new Vector3(transform.position.x, -GameManager.halfVerticalScreenSize - 0.5f, transform.position.z),
+                new Vector3(transform.position.x, -GameManager.Instance.HalfVerticalScreenSize - 0.5f, transform.position.z),
                 null,
                 () =>
                 {

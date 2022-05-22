@@ -1,6 +1,5 @@
 ﻿using Runner.Scripts.Manager;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Runner.Scripts.Controller
 {
@@ -20,7 +19,7 @@ namespace Runner.Scripts.Controller
         public void SetupBackgroundSize()
         {
             var sprite = BackgroundSprite.sprite.bounds.size;
-            var expandScale = 2f * Mathf.Max(GameManager.halfHorizontalScreenSize / sprite.x, GameManager.halfVerticalScreenSize / sprite.y);
+            var expandScale = 2f * Mathf.Max(GameManager.Instance.HalfHorizontalScreenSize / sprite.x, GameManager.Instance.HalfVerticalScreenSize / sprite.y);
             BackgroundSprite.transform.localScale = Vector2.one * expandScale;
         }
 

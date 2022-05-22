@@ -382,13 +382,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489bab5baf219e9499c3e1147d07044c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameMask: {fileID: 1884481567280932003}
-  _backgroundController: {fileID: 1742522720939978984}
-  _levelContainer: {fileID: 3350665837127877599}
-  _floorController: {fileID: 114246199761288050, guid: 3d81e790479272a4983ab4a7bf193c89,
+  <GameMask>k__BackingField: {fileID: 1884481567280932003}
+  <BackgroundController>k__BackingField: {fileID: 1742522720939978984}
+  <LevelContainer>k__BackingField: {fileID: 3350665837127877599}
+  <FloorController>k__BackingField: {fileID: 114246199761288050, guid: 3d81e790479272a4983ab4a7bf193c89,
     type: 3}
-  _enemyController: {fileID: 5170387098996242696, guid: 2f7ba850b241a0b47997c385ecf3e3fd,
+  <EnemyController>k__BackingField: {fileID: 5170387098996242696, guid: 2f7ba850b241a0b47997c385ecf3e3fd,
     type: 3}
-  _playerController: {fileID: 114001781792008192, guid: 7ea6d8a423f2d804e93e630ae741c147,
+  <PlayerController>k__BackingField: {fileID: 114001781792008192, guid: 7ea6d8a423f2d804e93e630ae741c147,
     type: 3}
-  _floorSpeedIncreaseInterval: 20
+  <FloorSpeedIncreaseInterval>k__BackingField: 20

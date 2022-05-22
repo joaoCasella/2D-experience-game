@@ -1,6 +1,5 @@
 ﻿using Runner.Scripts.Manager;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Runner.Scripts.Controller
 {
@@ -17,7 +16,6 @@ namespace Runner.Scripts.Controller
         private BoxCollider2D BoxCollider { get; set; }
 
         [field: SerializeField]
-        [field: FormerlySerializedAs("_animator")]
         private Animator Animator { get; set; }
 
         public delegate void OnCollision();
@@ -26,7 +24,7 @@ namespace Runner.Scripts.Controller
         // Update is called once per frame
         void Update()
         {
-            Animator.speed = GameManager.IsGamePaused() ? 0.6f : 1f;
+            Animator.speed = GameManager.Instance.IsGamePaused() ? 0.6f : 1f;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.SmartFormat.Extensions;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;

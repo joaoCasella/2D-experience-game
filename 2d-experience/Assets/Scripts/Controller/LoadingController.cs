@@ -7,8 +7,8 @@ namespace Runner.Scripts.Controller
         private static LoadingController _loadingController;
         public static LoadingController Instance => _loadingController;
 
-        [SerializeField]
-        private Animator _animator = null;
+        [field: SerializeField]
+        private Animator Animator { get; set; }
 
         private void Awake()
         {
@@ -29,7 +29,7 @@ namespace Runner.Scripts.Controller
         public void Show()
         {
             gameObject.SetActive(true);
-            _animator.Play("Loading");
+            Animator.Play("Loading");
         }
 
         public void Hide()

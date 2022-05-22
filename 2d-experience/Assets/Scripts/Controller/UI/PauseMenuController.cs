@@ -60,17 +60,17 @@ namespace Runner.Scripts.Controller.UI
             SetMenuState(PauseMenuState.Default);
         }
 
-        private void SaveConfigurations(Configurations configurations)
+        private void SaveConfigurations(VisualConfigurations configurations)
         {
             SoundManager.Instance.SaveSoundConfigurations(configurations.MusicVolume, configurations.SoundFXVolume);
         }
 
-        private void OnSoundConfigurationsChanged(Configurations configurations)
+        private void OnSoundConfigurationsChanged(VisualConfigurations configurations)
         {
             SoundManager.Instance.OnSoundConfigurationsChanged(configurations.MusicVolume, configurations.SoundFXVolume);
         }
 
-        private void OnCooldownConfigurationsChanged(Configurations configurations)
+        private void OnCooldownConfigurationsChanged(VisualConfigurations configurations)
         {
             ConfigurationService.SaveShowCooldown(configurations.ShowCooldown);
         }

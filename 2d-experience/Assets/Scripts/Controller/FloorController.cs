@@ -7,34 +7,36 @@ namespace Runner.Scripts.Controller
     {
         public Vector2 Size => new Vector2(BoxCollider.size.x * transform.localScale.x, BoxCollider.size.y * transform.localScale.y);
 
-        public static float speed = initialSpeed;
-        private static readonly float initialSpeed = 6f;
-        private static readonly float maxSpeed = 16.2f;
-        private static readonly float speedStep = 0.6f;
+        private const float InitialSpeed = 6f;
+        private const float MaxSpeed = 16.2f;
+        private const float SpeedStep = 0.6f;
+
+        // Being static, all the floors can change velocity at once
+        private static float s_speed = InitialSpeed;
 
         [field: SerializeField]
         private BoxCollider2D BoxCollider { get; set; }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-            if (GameManager.IsGamePaused())
+            if (GameManager.Instance.IsGamePaused())
                 return;
 
-            transform.position += speed * Time.deltaTime * Vector3.left;
+            transform.position += s_speed * Time.deltaTime * Vector3.left;
         }
 
         public static void IncreaseFloorSpeed()
         {
-            if (speed >= maxSpeed)
+            if (s_speed >= MaxSpeed)
                 return;
 
-            speed += speedStep;
+            s_speed += SpeedStep;
         }
 
         public static void SetupInitialFloorSpeed()
         {
-            speed = initialSpeed;
+            s_speed = InitialSpeed;
         }
     }
 }

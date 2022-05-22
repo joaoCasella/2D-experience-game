@@ -1,6 +1,6 @@
 namespace Runner.Scripts.View
 {
-    public struct Configurations
+    public struct VisualConfigurations
     {
         public float MusicVolume { get; set; }
         public float SoundFXVolume { get; set; }

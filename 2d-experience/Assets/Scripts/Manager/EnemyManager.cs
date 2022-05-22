@@ -6,13 +6,15 @@ namespace Runner.Scripts.Manager
 {
     public class EnemyManager : MonoBehaviour
     {
+        // Could be a variable to add some uniqueness to each run
+        private const int NumberTilesBetweenEnemies = 5;
+
         [field: SerializeField]
         private EnemyController[] Enemies { get; set; }
 
-        private Queue<EnemyController> EnemiesQueue { get; set; } = new Queue<EnemyController>();
+        private Queue<EnemyController> EnemiesQueue { get; } = new Queue<EnemyController>();
         private int NumberTilesToSpawnEnemy { get; set; } = 1;
-        private System.Random RandomNumberGenerator { get; set; } = new System.Random();
-        private int NumberTilesBetweenEnemies { get; set; } = 5;
+        private System.Random RandomNumberGenerator { get; } = new System.Random();
 
         public void SetupEnemies(Transform floor, float floorVerticalSize)
         {
@@ -27,7 +29,7 @@ namespace Runner.Scripts.Manager
 
             var enemy = EnemiesQueue.Peek();
 
-            if (enemy.transform.position.x >= -(GameManager.halfHorizontalScreenSize + enemy.Size.x))
+            if (enemy.transform.position.x >= -(GameManager.Instance.HalfHorizontalScreenSize + enemy.Size.x))
                 return;
 
             var enemyDead = EnemiesQueue.Dequeue();

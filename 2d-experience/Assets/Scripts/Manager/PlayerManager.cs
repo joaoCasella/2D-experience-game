@@ -1,7 +1,6 @@
 ﻿using Runner.Scripts.Controller;
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Runner.Scripts.Manager
 {
@@ -10,15 +9,15 @@ namespace Runner.Scripts.Manager
         [field: SerializeField]
         private PlayerController Player { get; set; }
 
-        private GameObject currentPlayer;
+        private GameObject CurrentPlayer { get; set; }
 
         public void SetupPlayerOnScene()
         {
-            currentPlayer = Instantiate(
+            CurrentPlayer = Instantiate(
                 Player.gameObject,
                 new Vector2(
-                    -GameManager.halfHorizontalScreenSize + FloorManager.floorSize.x - Player.PositionOffset.x,
-                    -GameManager.halfVerticalScreenSize - Player.PositionOffset.y + FloorManager.floorSize.y + Player.Size.y * 0.5f
+                    -GameManager.Instance.HalfHorizontalScreenSize + FloorManager.FloorSize.x - Player.PositionOffset.x,
+                    -GameManager.Instance.HalfVerticalScreenSize - Player.PositionOffset.y + FloorManager.FloorSize.y + Player.Size.y * 0.5f
                 ),
                 Quaternion.identity
             );
@@ -26,7 +25,7 @@ namespace Runner.Scripts.Manager
 
         public void KillPlayer(Action onComplete)
         {
-            currentPlayer.GetComponent<PlayerController>().OnDeath(onComplete);
+            CurrentPlayer.GetComponent<PlayerController>().OnDeath(onComplete);
         }
     }
 }

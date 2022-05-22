@@ -1,18 +1,18 @@
-﻿using Runner.Scripts.Manager;
+﻿using Runner.Scripts.Controller;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Runner.Scripts.Controller
+namespace Runner.Scripts.Manager
 {
     public class FloorManager : MonoBehaviour
     {
-        public static Vector2 floorSize;
+        public static Vector2 FloorSize;
 
         [field: Header("Prefab")]
         [field: SerializeField]
         private FloorController FloorPrefab { get; set; }
 
-        private Queue<Transform> Floor { get; set; } = new Queue<Transform>();
+        private Queue<Transform> Floor { get; } = new Queue<Transform>();
         private Transform LastFloorTile { get; set; }
         private float FloorPrefabHorizontalSize { get; set; }
         private Transform FirstFloorTile { get; set; }
@@ -24,15 +24,15 @@ namespace Runner.Scripts.Controller
         public void Setup()
         {
             // Cache floor tile size
-            floorSize = FloorPrefab.Size;
-            FloorPrefabHorizontalSize = floorSize.x;
-            float tilePositionHorizontalOffset = (floorSize.x * 0.5f) - (GameManager.halfHorizontalScreenSize);
-            float tilePositionVerticalOffset = (floorSize.y * 0.5f) - (GameManager.halfVerticalScreenSize);
+            FloorSize = FloorPrefab.Size;
+            FloorPrefabHorizontalSize = FloorSize.x;
+            float tilePositionHorizontalOffset = FloorSize.x * 0.5f - GameManager.Instance.HalfHorizontalScreenSize;
+            float tilePositionVerticalOffset = FloorSize.y * 0.5f - GameManager.Instance.HalfVerticalScreenSize;
 
             float sumGameObjectHorizontalSize = 0f;
 
             // Added two more tiles to guarantee that the replacement does not show on screen
-            float totalScreenSize = (GameManager.halfHorizontalScreenSize + FloorPrefabHorizontalSize) * 2f;
+            float totalScreenSize = (GameManager.Instance.HalfHorizontalScreenSize + FloorPrefabHorizontalSize) * 2f;
 
             Transform currentElement = null;
 
@@ -57,7 +57,7 @@ namespace Runner.Scripts.Controller
         // Update is called once per frame
         void Update()
         {
-            if (FirstFloorTile.position.x < -(GameManager.halfHorizontalScreenSize + floorSize.x) && !GameManager.IsGamePaused())
+            if (FirstFloorTile.position.x < -(GameManager.Instance.HalfHorizontalScreenSize + FloorSize.x) && !GameManager.Instance.IsGamePaused())
             {
                 RecycleMovingFloorComponent();
             }
@@ -70,7 +70,7 @@ namespace Runner.Scripts.Controller
             float endPositionX = LastFloorTile.transform.position.x + FloorPrefabHorizontalSize;
             float endPositionY = LastFloorTile.transform.position.y;
 
-            OnFloorEnd(floor, floorSize.y);
+            OnFloorEnd(floor, FloorSize.y);
 
             floor.transform.position = new Vector2(endPositionX, endPositionY);
 

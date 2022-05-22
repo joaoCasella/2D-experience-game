@@ -55,8 +55,8 @@ namespace Runner.Scripts.View
             Action onClickQuit,
             Action onClickConfigurations,
             Action onClickBack,
-            Action<Configurations> onSoundConfigurationsChanged,
-            Action<Configurations> onCooldownConfigurationsChanged)
+            Action<VisualConfigurations> onSoundConfigurationsChanged,
+            Action<VisualConfigurations> onCooldownConfigurationsChanged)
         {
             ContinueButton.onClick.AddListener(() => onClickContinue());
             ConfigurationsButton.onClick.AddListener(() => onClickConfigurations());
@@ -73,9 +73,9 @@ namespace Runner.Scripts.View
             BackButton.onClick.AddListener(() => onClickBack());
         }
 
-        public Configurations GetConfigurations()
+        public VisualConfigurations GetConfigurations()
         {
-            return new Configurations()
+            return new VisualConfigurations()
             {
                 MusicVolume = MusicSlider.normalizedValue,
                 SoundFXVolume = SoundFXSlider.normalizedValue,
