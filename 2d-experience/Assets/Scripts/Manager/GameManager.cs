@@ -28,7 +28,9 @@ namespace Runner.Scripts.Manager
         {
             get
             {
-                return PlayerService.GetSavedHighestScore();
+                int highestScore = PlayerService.GetSavedHighestScore();
+                LocalizationService.ChangeLocalizationValue<IntVariable, int>("highest-score", highestScore);
+                return highestScore;
             }
             private set
             {
