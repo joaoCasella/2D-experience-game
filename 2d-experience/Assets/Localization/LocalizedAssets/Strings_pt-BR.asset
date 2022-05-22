@@ -69,6 +69,10 @@ MonoBehaviour:
     m_Localized: Continuar
     m_Metadata:
       m_Items: []
+  - m_Id: 2835615476088832
+    m_Localized: 'Mostrar contagem regressiva: '
+    m_Metadata:
+      m_Items: []
   references:
     version: 1
     00000000:

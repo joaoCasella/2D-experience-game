@@ -1,9 +1,17 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Runner.Scripts.View
 {
+    public enum PauseMenuVisualState
+    {
+        Default = 0,
+        Configurations = 1,
+        Cooldown = 2,
+    }
+
     public class PauseMenuView : MonoBehaviour
     {
         [field: SerializeField]
@@ -28,16 +36,27 @@ namespace Runner.Scripts.View
         private Slider SoundFXSlider { get; set; }
 
         [field: SerializeField]
+        private Toggle ShowCooldownToggle { get; set; }
+
+        [field: SerializeField]
         private Button BackButton { get; set; }
+
+        [field: SerializeField]
+        private GameObject CooldownScreenContainer { get; set; }
+
+        [field: SerializeField]
+        private TextMeshProUGUI CooldownText { get; set; }
 
         public void Setup(
             float startMusicVolume,
             float startSoundFXVolume,
+            bool showCooldownValue,
             Action onClickContinue,
             Action onClickQuit,
             Action onClickConfigurations,
             Action onClickBack,
-            Action<Configurations> onSoundConfigurationsChanged)
+            Action<Configurations> onSoundConfigurationsChanged,
+            Action<Configurations> onCooldownConfigurationsChanged)
         {
             ContinueButton.onClick.AddListener(() => onClickContinue());
             ConfigurationsButton.onClick.AddListener(() => onClickConfigurations());
@@ -45,22 +64,35 @@ namespace Runner.Scripts.View
 
             MusicSlider.value = startMusicVolume;
             SoundFXSlider.value = startSoundFXVolume;
+            ShowCooldownToggle.isOn = showCooldownValue;
 
             MusicSlider.onValueChanged.AddListener((value) => onSoundConfigurationsChanged(GetConfigurations()));
             SoundFXSlider.onValueChanged.AddListener((value) => onSoundConfigurationsChanged(GetConfigurations()));
+            ShowCooldownToggle.onValueChanged.AddListener((value) => onCooldownConfigurationsChanged(GetConfigurations()));
 
             BackButton.onClick.AddListener(() => onClickBack());
         }
 
         public Configurations GetConfigurations()
         {
-            return new Configurations() { MusicVolume = MusicSlider.normalizedValue, SoundFXVolume = SoundFXSlider.normalizedValue };
+            return new Configurations()
+            {
+                MusicVolume = MusicSlider.normalizedValue,
+                SoundFXVolume = SoundFXSlider.normalizedValue,
+                ShowCooldown = ShowCooldownToggle.isOn,
+            };
         }
 
-        public void ShowScreen(bool defaultMenu)
+        public void ShowScreen(PauseMenuVisualState visualState)
         {
-            DefaultMenuContainer.SetActive(defaultMenu);
-            ConfigurationsMenuContainer.SetActive(!defaultMenu);
+            DefaultMenuContainer.SetActive(visualState == PauseMenuVisualState.Default);
+            ConfigurationsMenuContainer.SetActive(visualState == PauseMenuVisualState.Configurations);
+            CooldownScreenContainer.SetActive(visualState == PauseMenuVisualState.Cooldown);
+        }
+
+        public void SetCooldownText(string text)
+        {
+            CooldownText.text = text;
         }
     }
 }

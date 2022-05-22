@@ -63,6 +63,10 @@ MonoBehaviour:
     m_Key: resume_button
     m_Metadata:
       m_Items: []
+  - m_Id: 2835615476088832
+    m_Key: toggle_cooldown_screen
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -38,7 +38,6 @@ namespace Runner.Scripts.Controller.Scene
             PauseMenu.Setup(OnPausePress);
             ToggleUiVisibility(UiVisibility.InGameUi);
 
-
             InputManager.Instance.RegisterInputListener(this);
         }
 

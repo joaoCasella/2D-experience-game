@@ -1,18 +1,23 @@
 ﻿using Runner.Scripts.Inputter;
 using Runner.Scripts.Manager;
+using Runner.Scripts.Service;
 using Runner.Scripts.View;
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Runner.Scripts.Controller.UI
 {
     public class PauseMenuController : MonoBehaviour, IInputListener
     {
-        private enum PauseMenuState
+        public enum PauseMenuState
         {
-            Default,
-            Configurations
+            Default = 0,
+            Configurations = 1,
+            Cooldown = 2,
         }
+
+        const int CooldownTimeInSeconds = 3;
 
         [field: Header("References")]
         [field: SerializeField]
@@ -21,6 +26,7 @@ namespace Runner.Scripts.Controller.UI
         public InputListenerPriority Priority => InputListenerPriority.Overlay;
         private Action OnClickContinue { get; set; }
         private PauseMenuState MenuState { get; set; }
+        private Coroutine CountdownCoroutine { get; set; }
 
         public void Setup(Action onClickContinue)
         {
@@ -29,11 +35,13 @@ namespace Runner.Scripts.Controller.UI
             PauseMenu.Setup(
                 SoundManager.Instance.MusicVolume,
                 SoundManager.Instance.SoundFXVolume,
-                OnClickContinue,
+                ConfigurationService.GetSavedShowCooldown(),
+                OnContinue,
                 GameManager.Instance.OnGameQuit,
                 () => SetMenuState(PauseMenuState.Configurations),
                 OnBackFromSettingsScreen,
-                OnSoundConfigurationsChanged);
+                OnSoundConfigurationsChanged,
+                OnCooldownConfigurationsChanged);
 
             SetMenuState(PauseMenuState.Default);
 
@@ -42,7 +50,7 @@ namespace Runner.Scripts.Controller.UI
 
         private void SetMenuState(PauseMenuState menuState)
         {
-            PauseMenu.ShowScreen(defaultMenu: menuState == PauseMenuState.Default);
+            PauseMenu.ShowScreen((PauseMenuVisualState) (int) menuState);
             MenuState = menuState;
         }
 
@@ -62,9 +70,43 @@ namespace Runner.Scripts.Controller.UI
             SoundManager.Instance.OnSoundConfigurationsChanged(configurations.MusicVolume, configurations.SoundFXVolume);
         }
 
+        private void OnCooldownConfigurationsChanged(Configurations configurations)
+        {
+            ConfigurationService.SaveShowCooldown(configurations.ShowCooldown);
+        }
+
+        private void OnContinue()
+        {
+            void afterCooldown()
+            {
+                SetMenuState(PauseMenuState.Default);
+                OnClickContinue();
+            }
+
+            if (!ConfigurationService.GetSavedShowCooldown())
+            {
+                afterCooldown();
+                return;
+            }
+
+            SetMenuState(PauseMenuState.Cooldown);
+            CountdownCoroutine = StartCoroutine(ShowCooldownAnimation(onComplete: afterCooldown));
+        }
+
+        private IEnumerator ShowCooldownAnimation(Action onComplete)
+        {
+            var wait = new WaitForSecondsRealtime(1f);
+            for (int i = CooldownTimeInSeconds; i > 0; i--)
+            {
+                PauseMenu.SetCooldownText(i.ToString());
+                yield return wait;
+            }
+            onComplete?.Invoke();
+        }
+
         public bool ConsumeInput(InputAction inputAction)
         {
-            if (inputAction != InputAction.BackOrPause)
+            if (inputAction != InputAction.BackOrPause || this == null || gameObject == null || !gameObject.activeInHierarchy)
                 return false;
 
             OnBackPress();
@@ -75,7 +117,7 @@ namespace Runner.Scripts.Controller.UI
         {
             if (MenuState == PauseMenuState.Default)
             {
-                OnClickContinue();
+                OnContinue();
             }
             else if (MenuState == PauseMenuState.Configurations)
             {
@@ -86,6 +128,9 @@ namespace Runner.Scripts.Controller.UI
         private void OnDestroy()
         {
             InputManager.Instance.DeregisterInputListener(this);
+
+            if (CountdownCoroutine != null)
+                StopCoroutine(CountdownCoroutine);
         }
     }
 }
