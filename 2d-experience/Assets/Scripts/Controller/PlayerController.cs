@@ -51,7 +51,7 @@ namespace Runner.Scripts.Controller
         public InputListenerPriority Priority => InputListenerPriority.Gameplay;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             Animator.SetFloat("runSpeed", RunSpeed);
 
@@ -82,99 +82,30 @@ namespace Runner.Scripts.Controller
             if (JumpCoroutine != null)
                 StopCoroutine(JumpCoroutine);
 
-            JumpCoroutine = StartCoroutine(Jump());
+            JumpCoroutine = StartCoroutine(ParabolicMovement(
+                time: JumpTime,
+                descendGravityMultiplier: FallGravityMultiplier,
+                finalPosition: transform.position,
+                onMovementPeak: () => Animator.SetTrigger("jumpFall"),
+                onComplete: () =>
+                {
+                    Animator.SetTrigger("jumpEnd");
+                    IsBlocked = false;
+                    JumpCoroutine = null;
+                }));
         }
 
         // (06/03/2022) Based on "Math for Game Programmers: Building a Better Jump", available at: https://www.youtube.com/watch?v=hG9SzQxaCm8
-        private IEnumerator Jump()
+        private IEnumerator ParabolicMovement(
+            float time,
+            float descendGravityMultiplier,
+            Vector3 finalPosition,
+            Action onMovementPeak,
+            Action onComplete)
         {
             // th is the time will take to take the player to the top of the parabola
             // This is the reciprocal of that value
-            var oneOverTime = 1f / JumpTime;
-
-            // v0 = 2 * JumpHeight / th
-            var verticalVelocity = 2f * JumpHeight * oneOverTime;
-            // g = -2 * JumpHeight / (th ^ 2)
-            var gravity = -(verticalVelocity) * oneOverTime;
-
-            var initialPosition = transform.position;
-            var updatedFallGravity = false;
-
-            do
-            {
-                var deltaTime = Time.deltaTime;
-                var heightIncrement = (verticalVelocity * deltaTime) + (gravity * deltaTime * deltaTime * 0.5f);
-
-                // Prevents miscalculation
-                if (transform.position.y + heightIncrement <= initialPosition.y)
-                {
-                    transform.position = initialPosition;
-                    break;
-                }
-
-                transform.position += heightIncrement * Vector3.up;
-                verticalVelocity += gravity * deltaTime;
-
-                if (!updatedFallGravity
-                    && verticalVelocity <= 0f)
-                {
-                    Animator.SetTrigger("jumpFall");
-                    updatedFallGravity = true;
-                    gravity *= FallGravityMultiplier;
-                }
-
-                yield return null;
-            }
-            while (transform.position.y > initialPosition.y);
-
-            Animator.SetTrigger("jumpEnd");
-            IsBlocked = false;
-            JumpCoroutine = null;
-        }
-
-        private void OnGamePaused(bool paused)
-        {
-            if (JumpCoroutine != null)
-                return;
-
-            IsBlocked = paused;
-            Animator.SetBool("playerIdle", paused);
-        }
-
-        public void OnDeath(Action onComplete)
-        {
-            StopAllCoroutines();
-            Death(onComplete);
-        }
-
-        private void Death(Action onComplete)
-        {
-            IsBlocked = true;
-
-            Animator.SetTrigger("deathTrigger");
-
-            Destroy(BoxCollider);
-
-            StartCoroutine(FallOnDeath(
-                0.5f,
-                1.8f,
-                new Vector3(transform.position.x, -GameManager.halfVerticalScreenSize - 0.5f, transform.position.z),
-                () =>
-                {
-                    Destroy(gameObject);
-                    onComplete();
-                }));
-
-        }
-
-        // TODO: refactor jump to represent parabolic movement so that we can use that function here
-        private IEnumerator FallOnDeath(
-            float fallTime,
-            float descendGravityMultiplier,
-            Vector3 finalPosition,
-            Action onComplete)
-        {
-            var oneOverTime = 1f / fallTime;
+            var oneOverTime = 1f / time;
 
             // v0 = 2 * JumpHeight / th
             var verticalVelocity = 2f * JumpHeight * oneOverTime;
@@ -201,6 +132,7 @@ namespace Runner.Scripts.Controller
                 if (!updatedFallGravity
                     && verticalVelocity <= 0f)
                 {
+                    onMovementPeak?.Invoke();
                     updatedFallGravity = true;
                     gravity *= descendGravityMultiplier;
                 }
@@ -209,7 +141,43 @@ namespace Runner.Scripts.Controller
             }
             while (transform.position.y > finalPosition.y);
 
-            onComplete();
+            onComplete?.Invoke();
+        }
+
+        private void OnGamePaused(bool paused)
+        {
+            if (JumpCoroutine != null)
+                return;
+
+            IsBlocked = paused;
+            Animator.SetBool("playerIdle", paused);
+        }
+
+        public void OnDeath(Action onComplete)
+        {
+            StopAllCoroutines();
+            Death(onComplete);
+        }
+
+        private void Death(Action onComplete)
+        {
+            IsBlocked = true;
+
+            Animator.SetTrigger("deathTrigger");
+
+            Destroy(BoxCollider);
+
+            StartCoroutine(ParabolicMovement(
+                0.5f,
+                1.8f,
+                new Vector3(transform.position.x, -GameManager.halfVerticalScreenSize - 0.5f, transform.position.z),
+                null,
+                () =>
+                {
+                    Destroy(gameObject);
+                    onComplete();
+                }));
+
         }
 
         private void OnDestroy()
