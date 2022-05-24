@@ -10,14 +10,19 @@ namespace Runner.Scripts.View
         private AspectRatioFitter AspectRatioFitter { get; set; }
 
         [field: SerializeField]
+        private RectTransform UiScalerRectTransform { get; set; }
+
+        [field: SerializeField]
         private EventTrigger BackgroundButton { get; set; }
 
         [field: SerializeField]
         private Button PauseButton { get; set; }
 
-        public void Setup(float aspectRatio)
+        public void Setup(float nativeAspectRatio, float currentAspectRatio)
         {
-            AspectRatioFitter.aspectRatio = aspectRatio;
+            AspectRatioFitter.aspectRatio = nativeAspectRatio;
+            AspectRatioFitter.aspectMode = currentAspectRatio < nativeAspectRatio ? AspectRatioFitter.AspectMode.WidthControlsHeight : AspectRatioFitter.AspectMode.HeightControlsWidth;
+            UiScalerRectTransform.sizeDelta = Vector2.zero;
 
             PauseButton.onClick.AddListener(OnClickPauseButton);
             var entry = new EventTrigger.Entry

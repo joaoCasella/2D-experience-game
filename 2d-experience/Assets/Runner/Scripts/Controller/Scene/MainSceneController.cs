@@ -36,7 +36,7 @@ namespace Runner.Scripts.Controller.Scene
             LevelManager.Setup(OnPontuationChanged);
             OnPontuationChanged(GameManager.Instance.Pontuation);
 
-            GameUi.Setup(GameManager.NativeGameWidth / GameManager.NativeGameHeight);
+            GameUi.Setup(GameManager.NativeGameWidth / GameManager.NativeGameHeight, (float) Screen.width / Screen.height);
             PauseMenu.Setup(OnPausePress);
             ToggleUiVisibility(UiVisibility.InGameUi);
 

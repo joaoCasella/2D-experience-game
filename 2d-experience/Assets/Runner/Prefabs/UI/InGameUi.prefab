@@ -236,6 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <AspectRatioFitter>k__BackingField: {fileID: 7239338339518005402}
+  <UiScalerRectTransform>k__BackingField: {fileID: 6680984227778949675}
   <BackgroundButton>k__BackingField: {fileID: 8150277294555039525}
   <PauseButton>k__BackingField: {fileID: 1665805105171777579}
 --- !u!1 &1665805105625629659
@@ -307,7 +308,7 @@ MonoBehaviour:
   m_text: 'Points: 00000'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c19e4448de3af6c47bc87e046c3ea145, type: 2}
-  m_sharedMaterial: {fileID: 1027704937837032846, guid: 8eb55918adfe99946be783d9ef92ea47,
+  m_sharedMaterial: {fileID: -2676295691488772142, guid: c19e4448de3af6c47bc87e046c3ea145,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -332,11 +333,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70
+  m_fontSize: 56.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 60
+  m_fontSizeMin: 1
   m_fontSizeMax: 70
   m_fontStyle: 0
   m_HorizontalAlignment: 1
