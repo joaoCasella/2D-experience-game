@@ -26,17 +26,22 @@ My goal is to learn about the engine and its workflow. So, I consider the game i
 - [X] Fix some visual glitches on the moving floor
 - [X] Persist the high score in the hard drive (currently, the game only "remembers" the high score from the current session)
 - [X] Add configuration screen to adjust sound and music volumes
-    - [ ] Make this screen accessible through the main menu
 - [X] Add localizations to the game
 - [X] Add countdown after game pause (so that the player can have a moment after the pause to concentrate before the game restarts)
 - [X] Make it possible to navigate inside the menus using the back button (escape or android back)
-- [ ] Change UI
+- [X] Change UI
     - [X] Make UI be fully inside the game screen space (currently, it fills the whole screen)
     - [X] In game menu positions (difficult to press pause button and to see current score)
-    - [ ] Change button appearance
-- [ ] Minor optimizations:
+- [X] Minor optimizations:
     - [X] Replace tag comparation with the `CompareTag` method
+- [ ] Future improvements (after v2)
+    - [ ] Make the language changeable through the main menu
+    - [ ] Fix the way the pontuation is inserted in the localizations
+    - [ ] Change UI appearance
     - [ ] Remove unused assets from the package imported
-- [ ] Add an enemy that flies (similar to the aerodactyl in the chrome game, used as inspiration), and adapt the player logic accordingly to make it work
-- [ ] Play a sound effect when the player dies
-- [ ] Add some sort of bonus to the player (like coins that add a bonus to the player pontuation but are difficult to be caught)
+    - [ ] Play a sound effect when the player dies
+    - [ ] Add music to the main menu
+    - [ ] Use a shader on the floor to optimize the way its drawn (and to fix visual glitches)
+- [ ] Game design ideas
+    - [ ] Add an enemy that flies (similar to the aerodactyl in the chrome game, used as inspiration), and adapt the player logic accordingly to make it work
+    - [ ] Add some sort of bonus to the player (like coins that add a bonus to the player pontuation but are difficult to be caught)
