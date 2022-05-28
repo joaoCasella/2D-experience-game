@@ -177,7 +177,6 @@ namespace Runner.Scripts.Controller
                     Destroy(gameObject);
                     onComplete();
                 }));
-
         }
 
         private void OnDestroy()
