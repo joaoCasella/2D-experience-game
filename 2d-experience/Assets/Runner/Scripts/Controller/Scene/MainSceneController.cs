@@ -34,9 +34,8 @@ namespace Runner.Scripts.Controller.Scene
             Camera.main.orthographicSize *= GameManager.Instance.CameraScaleFactor;
 
             LevelManager.Setup(OnPontuationChanged);
-            OnPontuationChanged(GameManager.Instance.Pontuation);
 
-            GameUi.Setup(GameManager.NativeGameWidth / GameManager.NativeGameHeight, (float) Screen.width / Screen.height);
+            GameUi.Setup(GameManager.Instance.Pontuation, GameManager.NativeGameWidth / GameManager.NativeGameHeight, (float) Screen.width / Screen.height);
             PauseMenu.Setup(OnPausePress);
             ToggleUiVisibility(UiVisibility.InGameUi);
 
@@ -45,7 +44,7 @@ namespace Runner.Scripts.Controller.Scene
 
         private void OnPontuationChanged(int pontuation)
         {
-            LocalizationService.ChangeLocalizationValue<IntVariable, int>("current-score", pontuation);
+            GameUi.UpdateCurrentScore(pontuation);
         }
 
         public void OnPausePress()

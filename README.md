@@ -32,13 +32,13 @@ My goal is to learn about the engine and its workflow. So, I consider the game i
 - [X] Make it possible to navigate inside the menus using the back button (escape or android back)
 - [X] Make the language changeable through the main menu
 - [X] Add music to the main menu
+- [X] Fix the way the pontuation is inserted in the localizations
 - [X] Change UI
     - [X] Make UI be fully inside the game screen space (currently, it fills the whole screen)
     - [X] In game menu positions (difficult to press pause button and to see current score)
 - [X] Minor optimizations:
     - [X] Replace tag comparation with the `CompareTag` method
 - [ ] Future improvements (after v2)
-    - [ ] Fix the way the pontuation is inserted in the localizations
     - [ ] Change UI appearance
     - [ ] Remove unused assets from the package imported
     - [ ] Play a sound effect when the player dies

@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 namespace Runner.Scripts.View
@@ -16,9 +19,17 @@ namespace Runner.Scripts.View
         private EventTrigger BackgroundButton { get; set; }
 
         [field: SerializeField]
+        private TextMeshProUGUI CurrentScoreText { get; set; }
+
+        [field: SerializeField]
+        private LocalizedString CurrentScoreString { get; set; }
+
+        [field: SerializeField]
         private Button PauseButton { get; set; }
 
-        public void Setup(float nativeAspectRatio, float currentAspectRatio)
+        private int LastScore { get; set; }
+
+        public void Setup(int currentScore, float nativeAspectRatio, float currentAspectRatio)
         {
             AspectRatioFitter.aspectRatio = nativeAspectRatio;
             AspectRatioFitter.aspectMode = currentAspectRatio < nativeAspectRatio ? AspectRatioFitter.AspectMode.WidthControlsHeight : AspectRatioFitter.AspectMode.HeightControlsWidth;
@@ -31,6 +42,8 @@ namespace Runner.Scripts.View
             };
             entry.callback.AddListener(OnClickActionButton);
             BackgroundButton.triggers.Add(entry);
+
+            CurrentScoreString.StringChanged += UpdateString;
         }
 
         private void OnClickPauseButton()
@@ -43,8 +56,20 @@ namespace Runner.Scripts.View
             InputDetected(Inputter.InputAction.Action);
         }
 
+        private void UpdateString(string s)
+        {
+            CurrentScoreText.text = CurrentScoreString.GetLocalizedString(LastScore);
+        }
+
+        public void UpdateCurrentScore(int currentScore)
+        {
+            LastScore = currentScore;
+            UpdateString(null);
+        }
+
         private void OnDestroy()
         {
+            CurrentScoreString.StringChanged -= UpdateString;
             PauseButton.onClick.RemoveListener(OnClickPauseButton);
             BackgroundButton.triggers.RemoveAt(0);
         }

@@ -24,14 +24,11 @@ namespace Runner.Scripts.Manager
         {
             get
             {
-                int highestScore = PlayerService.GetSavedHighestScore();
-                LocalizationService.ChangeLocalizationValue<IntVariable, int>("highest-score", highestScore);
-                return highestScore;
+                return PlayerService.GetSavedHighestScore();
             }
             private set
             {
                 PlayerService.SaveHighestScore(value);
-                LocalizationService.ChangeLocalizationValue<IntVariable, int>("highest-score", value);
             }
         }
 

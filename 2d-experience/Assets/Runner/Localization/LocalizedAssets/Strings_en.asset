@@ -16,18 +16,16 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 9e7ea4953b8eb884eb5942ea590905a7, type: 2}
   m_Metadata:
-    m_Items:
-    - id: 0
+    m_Items: []
   m_TableData:
   - m_Id: 39257374720
     m_Localized: Runner
     m_Metadata:
       m_Items: []
   - m_Id: 311580950528
-    m_Localized: 'High Score: {global.highest-score}'
+    m_Localized: 'High Score: {0}'
     m_Metadata:
-      m_Items:
-      - id: 0
+      m_Items: []
   - m_Id: 11012705878016
     m_Localized: Start
     m_Metadata:
@@ -41,10 +39,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 24659675054080
-    m_Localized: '<mspace=1em>Points: {global.current-score}</mspace>'
+    m_Localized: '<mspace=1em>Points: {0}</mspace>'
     m_Metadata:
-      m_Items:
-      - id: 0
+      m_Items: []
   - m_Id: 28698684948480
     m_Localized: Configurations
     m_Metadata:
@@ -78,12 +75,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4964351713476608
-    m_Localized: 'Language:'
+    m_Localized: 'Text language:'
     m_Metadata:
       m_Items: []
   references:
     version: 1
-    00000000:
-      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
-      data:
-        m_Entries: 0000ac8b4800000000002c876d160000

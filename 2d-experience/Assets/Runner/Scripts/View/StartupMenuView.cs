@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 namespace Runner.Scripts.View
@@ -12,6 +13,12 @@ namespace Runner.Scripts.View
         private GameObject ContentContainer { get; set; }
 
         [field: SerializeField]
+        private TextMeshProUGUI HighestScoreText { get; set; }
+
+        [field: SerializeField]
+        private LocalizedString HighestScoreString { get; set; }
+
+        [field: SerializeField]
         private Button StartGameButton { get; set; }
 
         [field: SerializeField]
@@ -20,17 +27,38 @@ namespace Runner.Scripts.View
         [field: SerializeField]
         private Button QuitGameButton { get; set; }
 
-        public void Setup(Action onClickStartGame, Action onClickSettings, Action onClickQuitGame)
+        private int HighestScore { get; set; }
+
+        public void Setup(
+            int highestScore,
+            Action onClickStartGame,
+            Action onClickSettings,
+            Action onClickQuitGame)
         {
+            HighestScore = highestScore;
+
             ContentContainer.SetActive(true);
             StartGameButton.onClick.AddListener(() => onClickStartGame());
             SettingsMenuButton.onClick.AddListener(() => onClickSettings());
             QuitGameButton.onClick.AddListener(() => onClickQuitGame());
+
+            UpdateString(null);
+            HighestScoreString.StringChanged += UpdateString;
+        }
+
+        private void UpdateString(string s)
+        {
+            HighestScoreText.text = HighestScoreString.GetLocalizedString(HighestScore);
         }
 
         public void ToggleActiveState(bool active)
         {
             ContentContainer.SetActive(active);
+        }
+
+        private void OnDestroy()
+        {
+            HighestScoreString.StringChanged -= UpdateString;
         }
     }
 }

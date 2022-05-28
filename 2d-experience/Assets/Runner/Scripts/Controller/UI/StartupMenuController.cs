@@ -26,7 +26,7 @@ namespace Runner.Scripts.Controller.UI
 
         public void Setup()
         {
-            StartMenu.Setup(OnClickStart, OnClickSettings, OnClickQuit);
+            StartMenu.Setup(GameManager.Instance.HighestScore, OnClickStart, OnClickSettings, OnClickQuit);
             SettingsMenu.Setup(OnBackPress);
         }
 
