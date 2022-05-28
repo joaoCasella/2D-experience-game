@@ -44,7 +44,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28786094243840
-    m_Key: music_volume_text
+    m_Key: gameplay_music_volume_text
     m_Metadata:
       m_Items: []
   - m_Id: 28924430778368
@@ -65,6 +65,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2835615476088832
     m_Key: toggle_cooldown_screen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4750788302471168
+    m_Key: main_menu_music_volume_text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4964351713476608
+    m_Key: language_selection_text
     m_Metadata:
       m_Items: []
   m_Metadata:

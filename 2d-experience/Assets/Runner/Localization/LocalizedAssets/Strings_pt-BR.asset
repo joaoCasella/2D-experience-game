@@ -50,11 +50,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28786094243840
-    m_Localized: "Volume da m\xFAsica: "
+    m_Localized: "Volume da m\xFAsica de jogo:"
     m_Metadata:
       m_Items: []
   - m_Id: 28924430778368
-    m_Localized: 'Volume dos sons: '
+    m_Localized: 'Volume dos efeitos sonoros:'
     m_Metadata:
       m_Items: []
   - m_Id: 29358960672768
@@ -70,7 +70,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2835615476088832
-    m_Localized: 'Mostrar contagem regressiva: '
+    m_Localized: 'Mostrar contagem regressiva:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4750788302471168
+    m_Localized: "Volume da m\xFAsica no menu:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4964351713476608
+    m_Localized: "L\xEDngua:"
     m_Metadata:
       m_Items: []
   references:

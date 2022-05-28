@@ -50,11 +50,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28786094243840
-    m_Localized: 'Music volume: '
+    m_Localized: 'Gameplay music volume:'
     m_Metadata:
       m_Items: []
   - m_Id: 28924430778368
-    m_Localized: 'Sound volume: '
+    m_Localized: 'Sound FX volume:'
     m_Metadata:
       m_Items: []
   - m_Id: 29358960672768
@@ -70,7 +70,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2835615476088832
-    m_Localized: 'Show cooldown: '
+    m_Localized: 'Show cooldown:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4750788302471168
+    m_Localized: 'Main menu music volume:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4964351713476608
+    m_Localized: 'Language:'
     m_Metadata:
       m_Items: []
   references:

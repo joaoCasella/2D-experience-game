@@ -23,6 +23,9 @@ namespace Runner.Scripts.Controller.UI
         [field: SerializeField]
         private PauseMenuView PauseMenu { get; set; }
 
+        [field: SerializeField]
+        private SettingsMenuController SettingsMenu { get; set; }
+
         public InputListenerPriority Priority => InputListenerPriority.Overlay;
         private Action OnClickContinue { get; set; }
         private PauseMenuState MenuState { get; set; }
@@ -32,47 +35,23 @@ namespace Runner.Scripts.Controller.UI
         {
             OnClickContinue = onClickContinue;
 
+            InputManager.Instance.RegisterInputListener(this);
+
             PauseMenu.Setup(
-                SoundManager.Instance.MusicVolume,
-                SoundManager.Instance.SoundFXVolume,
-                ConfigurationService.GetSavedShowCooldown(),
                 OnContinue,
                 GameManager.Instance.OnGameQuit,
-                () => SetMenuState(PauseMenuState.Configurations),
-                OnBackFromSettingsScreen,
-                OnSoundConfigurationsChanged,
-                OnCooldownConfigurationsChanged);
+                () => SetMenuState(PauseMenuState.Configurations));
+
+            SettingsMenu.Setup(() => SetMenuState(PauseMenuState.Default));
 
             SetMenuState(PauseMenuState.Default);
-
-            InputManager.Instance.RegisterInputListener(this);
         }
 
         private void SetMenuState(PauseMenuState menuState)
         {
             PauseMenu.ShowScreen((PauseMenuVisualState) (int) menuState);
+            SettingsMenu.ToggleActiveState(menuState == PauseMenuState.Configurations);
             MenuState = menuState;
-        }
-
-        private void OnBackFromSettingsScreen()
-        {
-            SaveConfigurations(PauseMenu.GetConfigurations());
-            SetMenuState(PauseMenuState.Default);
-        }
-
-        private void SaveConfigurations(VisualConfigurations configurations)
-        {
-            SoundManager.Instance.SaveSoundConfigurations(configurations.MusicVolume, configurations.SoundFXVolume);
-        }
-
-        private void OnSoundConfigurationsChanged(VisualConfigurations configurations)
-        {
-            SoundManager.Instance.OnSoundConfigurationsChanged(configurations.MusicVolume, configurations.SoundFXVolume);
-        }
-
-        private void OnCooldownConfigurationsChanged(VisualConfigurations configurations)
-        {
-            ConfigurationService.SaveShowCooldown(configurations.ShowCooldown);
         }
 
         private void OnContinue()
@@ -118,10 +97,6 @@ namespace Runner.Scripts.Controller.UI
             if (MenuState == PauseMenuState.Default)
             {
                 OnContinue();
-            }
-            else if (MenuState == PauseMenuState.Configurations)
-            {
-                OnBackFromSettingsScreen();
             }
         }
 

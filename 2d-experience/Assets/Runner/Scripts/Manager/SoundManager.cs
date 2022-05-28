@@ -1,4 +1,5 @@
-﻿using Runner.Scripts.Service;
+﻿using Runner.Scripts.Domain;
+using Runner.Scripts.Service;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,15 +10,27 @@ namespace Runner.Scripts.Manager
         private static SoundManager _instance;
         public static SoundManager Instance => _instance;
 
-        public float MusicVolume
+        public float MainMenuMusicVolume
         {
             get
             {
-                return ConfigurationService.GetSavedMusicVolume();
+                return ConfigurationService.GetSavedMusicVolume(MusicType.MainMenu);
             }
             set
             {
-                ConfigurationService.SaveMusicVolume(Mathf.Clamp01(value));
+                ConfigurationService.SaveMusicVolume(MusicType.MainMenu, Mathf.Clamp01(value));
+            }
+        }
+
+        public float GameplayMusicVolume
+        {
+            get
+            {
+                return ConfigurationService.GetSavedMusicVolume(MusicType.Gameplay);
+            }
+            set
+            {
+                ConfigurationService.SaveMusicVolume(MusicType.Gameplay, Mathf.Clamp01(value));
             }
         }
 
@@ -33,7 +46,8 @@ namespace Runner.Scripts.Manager
             }
         }
 
-        public List<AudioSource> MusicAudioSources { get; } = new List<AudioSource>();
+        public List<AudioSource> MainMenuMusicAudioSources { get; } = new List<AudioSource>();
+        public List<AudioSource> GameplayMusicAudioSources { get; } = new List<AudioSource>();
         public List<AudioSource> SoundFXAudioSources { get; } = new List<AudioSource>();
 
         private void Awake()
@@ -49,15 +63,26 @@ namespace Runner.Scripts.Manager
             }
         }
 
-        public void RegisterMusicSource(AudioSource source)
+        public void RegisterMusicSource(MusicType musicType, AudioSource source)
         {
-            MusicAudioSources.Add(source);
-            source.volume = MusicVolume;
+            if (musicType == MusicType.MainMenu)
+            {
+                MainMenuMusicAudioSources.Add(source);
+                source.volume = MainMenuMusicVolume;
+            }
+            else if (musicType == MusicType.Gameplay)
+            {
+                GameplayMusicAudioSources.Add(source);
+                source.volume = GameplayMusicVolume;
+            }
         }
 
-        public void DeregisterMusicSource(AudioSource source)
+        public void DeregisterMusicSource(MusicType musicType, AudioSource source)
         {
-            MusicAudioSources.Remove(source);
+            if (musicType == MusicType.MainMenu)
+                MainMenuMusicAudioSources.Remove(source);
+            else if (musicType == MusicType.Gameplay)
+                GameplayMusicAudioSources.Remove(source);
         }
 
         public void RegisterSoundFXSource(AudioSource source)
@@ -71,11 +96,16 @@ namespace Runner.Scripts.Manager
             SoundFXAudioSources.Remove(source);
         }
 
-        public void OnSoundConfigurationsChanged(float musicVolume, float soundFXVolume)
+        public void OnSoundConfigurationsChanged(float mainMenuVolume, float gameplayVolume, float soundFXVolume)
         {
-            foreach (var musicAudioSource in MusicAudioSources)
+            foreach (var musicAudioSource in MainMenuMusicAudioSources)
             {
-                musicAudioSource.volume = musicVolume;
+                musicAudioSource.volume = mainMenuVolume;
+            }
+
+            foreach (var musicAudioSource in GameplayMusicAudioSources)
+            {
+                musicAudioSource.volume = gameplayVolume;
             }
 
             foreach (var soundFXAudioSource in SoundFXAudioSources)
@@ -84,17 +114,19 @@ namespace Runner.Scripts.Manager
             }
         }
 
-        public void SaveSoundConfigurations(float musicVolume, float soundFXVolume)
+        public void SaveSoundConfigurations(float mainMenuMusicVolume, float gameplayMusicVolume, float soundFXVolume)
         {
-            MusicVolume = musicVolume;
+            MainMenuMusicVolume = mainMenuMusicVolume;
+            GameplayMusicVolume = gameplayMusicVolume;
             SoundFXVolume = soundFXVolume;
 
-            OnSoundConfigurationsChanged(MusicVolume, SoundFXVolume);
+            OnSoundConfigurationsChanged(MainMenuMusicVolume, GameplayMusicVolume, SoundFXVolume);
         }
 
         private void OnDestroy()
         {
-            MusicAudioSources.Clear();
+            MainMenuMusicAudioSources.Clear();
+            GameplayMusicAudioSources.Clear();
             SoundFXAudioSources.Clear();
         }
     }

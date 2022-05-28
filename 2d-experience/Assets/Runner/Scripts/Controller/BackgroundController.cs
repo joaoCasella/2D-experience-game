@@ -13,7 +13,7 @@ namespace Runner.Scripts.Controller
 
         private void Awake()
         {
-            SoundManager.Instance.RegisterMusicSource(AudioSource);
+            SoundManager.Instance.RegisterMusicSource(Domain.MusicType.Gameplay, AudioSource);
         }
 
         public void SetupBackgroundSize()
@@ -25,7 +25,7 @@ namespace Runner.Scripts.Controller
 
         private void OnDestroy()
         {
-            SoundManager.Instance.DeregisterMusicSource(AudioSource);
+            SoundManager.Instance.DeregisterMusicSource(Domain.MusicType.Gameplay, AudioSource);
         }
     }
 }

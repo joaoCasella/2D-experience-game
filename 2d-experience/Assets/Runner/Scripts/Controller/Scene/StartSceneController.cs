@@ -1,4 +1,5 @@
 ﻿using Runner.Scripts.Controller.UI;
+using Runner.Scripts.Manager;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
@@ -9,6 +10,14 @@ namespace Runner.Scripts.Controller.Scene
     {
         [field: SerializeField]
         private StartupMenuController StartupMenu { get; set; }
+
+        [field: SerializeField]
+        private AudioSource StartupMenuAudioSource { get; set; }
+
+        private void Awake()
+        {
+            SoundManager.Instance.RegisterMusicSource(Domain.MusicType.MainMenu, StartupMenuAudioSource);
+        }
 
         private IEnumerator Start()
         {
@@ -25,6 +34,11 @@ namespace Runner.Scripts.Controller.Scene
 
             LoadingController.Instance.Hide();
             StartupMenu.Setup();
+        }
+
+        private void OnDestroy()
+        {
+            SoundManager.Instance.DeregisterMusicSource(Domain.MusicType.MainMenu, StartupMenuAudioSource);
         }
     }
 }
