@@ -14,11 +14,6 @@ namespace Runner.Scripts.Controller.Scene
         [field: SerializeField]
         private AudioSource StartupMenuAudioSource { get; set; }
 
-        private void Awake()
-        {
-            SoundManager.Instance.RegisterMusicSource(Domain.MusicType.MainMenu, StartupMenuAudioSource);
-        }
-
         private IEnumerator Start()
         {
             StartupMenu.HideContent();
@@ -32,8 +27,14 @@ namespace Runner.Scripts.Controller.Scene
                 yield return null;
             }
 
-            LoadingController.Instance.Hide();
+            SoundManager.Instance.RegisterMusicSource(Domain.MusicType.MainMenu, StartupMenuAudioSource);
+
             StartupMenu.Setup();
+
+            // Waits until all the translations are setup
+            yield return new WaitForEndOfFrame();
+
+            LoadingController.Instance.Hide();
         }
 
         private void OnDestroy()
