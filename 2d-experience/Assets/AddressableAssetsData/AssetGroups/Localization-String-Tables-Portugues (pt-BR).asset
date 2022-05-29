@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: "Localization-String-Tables-Portugu\xEAs (pt-BR)"
+  m_Name: Localization-String-Tables-Portugues (pt-BR)
   m_EditorClassIdentifier: 
-  m_GroupName: "Localization-String-Tables-Portugu\xEAs (pt-BR)"
+  m_GroupName: Localization-String-Tables-Portugues (pt-BR)
   m_Data:
     m_SerializedData: []
-  m_GUID: d436cb3b53d750e49818099332d173d7
+  m_GUID: 41f2d5a7612e0e14f8714c69dd8c8b46
   m_SerializeEntries:
   - m_GUID: df2ad28fe6ba3d14d96fcdb70acaa9fc
     m_Address: Strings_pt-BR

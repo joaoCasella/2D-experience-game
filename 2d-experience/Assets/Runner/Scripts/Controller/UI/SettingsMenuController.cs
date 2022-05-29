@@ -1,4 +1,5 @@
 ﻿using Runner.Scripts.Inputter;
+using Runner.Scripts.Localization;
 using Runner.Scripts.Manager;
 using Runner.Scripts.Service;
 using Runner.Scripts.View;
@@ -59,8 +60,8 @@ namespace Runner.Scripts.Controller.UI
         private void SetupLanguagesDropdown()
         {
             SettingsMenu.SetupLanguagesDropdown(
-                LocalizationSettings.AvailableLocales.Locales.Select(locale => locale.LocaleName).ToList(),
-                LocalizationSettings.SelectedLocale.LocaleName,
+                LocalizationSettings.AvailableLocales.Locales.Select(locale => locale.Metadata.GetMetadata<LocaleMetadata>().displayName).ToList(),
+                LocalizationSettings.SelectedLocale.Metadata.GetMetadata<LocaleMetadata>().displayName,
                 (selectedIndex) => LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[selectedIndex]);
         }
 
